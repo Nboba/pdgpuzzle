@@ -2,8 +2,10 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from .puzzle.dungeonGet import solDungeon,getDungeon
 from .puzzle.generalData import generaldata,limitsData,textToFloatInt
+from django.contrib.auth.models import User
 # Create your models here.
-class DungeonPetition(models.Model):
+class DataPetition(models.Model):
+    id = models.AutoField(primary_key=True)
     height= models.IntegerField()
     nWidth= models.IntegerField()
     expantionFactor= models.FloatField()
@@ -15,7 +17,7 @@ class DungeonPetition(models.Model):
     maxMoves= models.IntegerField()
 
     def __init__(self, **kwargs):
-        super(DungeonPetition, self).__init__(**self.convertValues(**kwargs))
+        super(DataPetition, self).__init__(**self.convertValues(**kwargs))
         self.checkLimitsValues()
 
     def checkLimitsValues(self):
@@ -46,7 +48,8 @@ class DungeonPetition(models.Model):
     def getDungeonDummy():
         #Create a dungeon with the general values
         return getDungeon(generaldata['height'],generaldata['nWidth'],generaldata['expantionFactor'],generaldata['enemyFactor'],generaldata['blockFactor'],generaldata['nPop'],generaldata['maxIter'],generaldata['mutationFactor'],generaldata['maxMoves'])
-
+    def __str__(self):
+        return f"{self.height}x{self.nWidth} Dungeon with {self.nPop} population and {self.maxIter} iterations"
 
 
 class DungeonData(models.Model):
@@ -54,7 +57,7 @@ class DungeonData(models.Model):
     nSol = models.IntegerField()
     minSol = models.IntegerField()
     solution= models.JSONField()
-    solutionPlayer= models.JSONField(default='[]')
+    solutionPlayer= models.JSONField(default=dict())
     recordTime = models.TimeField(default='00:00:00')
     recordMoves = models.IntegerField(default=0)
     public = models.BooleanField(default=False)
@@ -62,7 +65,7 @@ class DungeonData(models.Model):
     def __init__(self, **kwargs):
         super(DungeonData, self).__init__(**kwargs)
         self.calculateSolutions()
-        self.solutionPlayer = []
+        self.solutionPlayer = dict()
         self.recordTime = '00:00:00'
         self.recordMoves = 0
         self.public = False
@@ -75,15 +78,13 @@ class DungeonData(models.Model):
         
     
 
-class petitionManager(models.Model):
+class PetitionManager(models.Model):
     id = models.AutoField(primary_key=True)
-    userId = models.IntegerField()
-    dungeonId = models.IntegerField()
-    status = {'P':'pending','A':'accepted','R':'rejected'}
-    date = models.DateTimeField(auto_now_add=True)
-    #userId = models.ForeignKey('User', on_delete=models.CASCADE)
-    dungeonId = models.ForeignKey('DungeonData', on_delete=models.CASCADE)
-    petitionData = models.ForeignKey('DungeonPetition', on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True,)
+    userID = models.ForeignKey(User, on_delete=models.CASCADE)
+    dungeonId = models.ForeignKey(DungeonData, on_delete=models.CASCADE)
+    petitionData = models.ForeignKey(DataPetition, on_delete=models.CASCADE)
+    statusP = models.CharField(choices={'P':'pending','C':'completed'},default='P')
 
     def checkStatus(self):
         return self.status
