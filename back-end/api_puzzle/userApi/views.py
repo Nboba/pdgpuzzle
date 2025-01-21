@@ -1,51 +1,69 @@
-from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import JsonResponse
+
 from django.contrib.auth.models import User
-from django.db.models import Q
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
+import json
 # Create your views here.
 
 @ensure_csrf_cookie
 @require_http_methods(["POST"])
-def register(request):
-        if request.method=="POST":
-            print(request.body)
-            if User.objects.filter(username=request.POST['username']).exists()== True :
-                return HttpResponse("Username already EXIST!!!.")
-            if User.objects.filter(email=request.POST['email']).exists()== True:
-                return HttpResponse("Email already EXIST!!!.")
-            else:
-                user= User.objects.create_user(username=request.POST["username"],
-                                            email=request.POST["email"])
-                user.set_password(request.POST["password"])
-                user.save()
-                return HttpResponse("User created.")
-
-@ensure_csrf_cookie
-def login(request):
+def registerApi(request):
     try:
-        user = User.objects.get(username=request.POST["username"])
-        if user.check_password(request.POST["password"]):
+        if request.method=="POST":
+            data=json.loads(request.body)['userLogin']
+            if User.objects.filter(username=data['username']).exists()== True :
+                return HttpResponse(content="Username already EXIST!!!.",status=400)
+            if User.objects.filter(email=data['email']).exists()== True:
+                return HttpResponse(content="Email already EXIST!!!.",status=400)
+            else:
+                user= User.objects.create_user(
+                                                username=data["username"],
+                                                email=data["email"]
+                                                )
+                user.set_password(data["password"])
+                user.save()
+                return JsonResponse({'response':"User created.",'status':200},safe=False)
+    except  Exception as e:
+        return HttpResponse(status=500)
+
+@require_http_methods(["POST"])
+@ensure_csrf_cookie
+def loginApi(request):
+    try:
+        data=json.loads(request.body)['userLogin']
+        user = authenticate(request,username=data["username"], password=data["password"])
+        if user is not None:
+            login(request, user)
             request.session["member_id"] = user.id
-            return HttpResponse("You're logged in.")
+            return JsonResponse({'data':{'username':user.username,
+                                 'user_id':request.session["member_id"],
+                                 'session_key':request.session.session_key},
+                         'message':"You're logged in.",
+                         'status':200},safe=False)
         else:
             return HttpResponse("Your username OR password didn't match.")
     except User.DoesNotExist:
         return HttpResponse("User dont Exist.")
     
-@ensure_csrf_cookie  
+@require_http_methods(["POST"])  
+@login_required
 def logout(request):
     try:
         del request.session["member_id"]
-        return HttpResponse("You're logged out.")
+        return JsonResponse({'message':"You re logged out."},safe=False)
     except KeyError:
-        return HttpResponse("You're not logged in.")
+        return HttpResponse("You're not logged in.",status=400)
     
+@require_http_methods(["GET"])  
 @ensure_csrf_cookie
 def isUserLogged(request):
     try:
         if request.session["member_id"]:
-            return HttpResponse("You're logged in.")
+            return JsonResponse({'message':"You're logged in.",
+                         'status':200},safe=False)
     except KeyError:
         return HttpResponse("You're not logged in.")
