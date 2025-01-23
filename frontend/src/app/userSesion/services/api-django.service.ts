@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, signal } from '@angular/core';
-import { GetResponse ,UserLogin,UserRegister,PostResponse, getDummyResponse} from '../models/puzzle-model';
+import { GetResponse ,UserLogin,UserRegister,PostResponse, Puzzle} from '../models/puzzle-model';
 import { Observable } from 'rxjs';
 import { UserSesionService } from './user-sesion.service';
 
@@ -14,9 +14,9 @@ export class ApiDjangoService {
     constructor(private http: HttpClient ,private userData:UserSesionService) {
     }
 
-   getPuzzles():Observable<getDummyResponse>{
+   getPuzzles():Observable<Puzzle>{
      console.log(this.apiUrl+'Puzzle/Solution/')
-      return this.http.get<getDummyResponse>(this.apiUrl+'Puzzle/');
+      return this.http.get<Puzzle>(this.apiUrl+'Puzzle/');
   }
 
   postRegister(userRegister:UserRegister): Promise<any> {

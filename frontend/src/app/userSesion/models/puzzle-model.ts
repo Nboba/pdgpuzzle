@@ -15,10 +15,8 @@ export interface GetResponse {
     dataDungeon: PuzzleModel[];
     response: string;
 }
-export interface getDummyResponse {
-    data: [];
-    response: string;
-    code: number;
+export interface Puzzle{
+    data:number[];
 }
 
 export interface PostResponse {

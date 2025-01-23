@@ -9,9 +9,9 @@ from .models import DataPetition,DungeonData,PetitionManager
 @ensure_csrf_cookie
 def getDummyDungeon(request):
     try:
-        return JsonResponse({'data':DataPetition.getDungeonDummy(),
-                             'response':'ok',
-                              'code': 200})
+        return JsonResponse([DataPetition.getDungeonDummy(),
+                             'ok',
+                              200],safe=False)
     except Exception as e:
         return JsonResponse({'response':str(e)})
     

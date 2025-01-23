@@ -1,14 +1,14 @@
 
 <button (click)="getPuzzleData()">Obtener un puzzle</button>
 <table>
-
-@for( row of this.puzzleData.data ; track $index; let i = $index)
+<!-- 
+@for( row of this.puzzleData ; track $index; let i = $index)
 {
-    <!-- <div>{{row[i]}} valor del count{{i}}</div> -->
+
      <tr>
         @for( col of this.getRow(row) ; track $index; let j = $index)
         {
-            <td>
+            <td id="{{i}}-{{j}}" >
                 @switch (col)
                 {
                     @case (0)  {
@@ -35,4 +35,4 @@
     </tr>
 }
 </table>
-
+ -->

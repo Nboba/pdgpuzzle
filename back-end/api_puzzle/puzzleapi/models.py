@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-from .puzzle.dungeonGet import solDungeon,getDungeon
+from .puzzle.dungeonGet import solDungeon,getDungeon,getMetadataDugeon
 from .puzzle.generalData import generaldata,limitsData,textToFloatInt
 from django.contrib.auth.models import User
 # Create your models here.
@@ -32,7 +32,15 @@ class DataPetition(models.Model):
     def getDungeon(self):
         self.checkLimitsValues()
         # Create a dungeon with the values of the petition
-        return getDungeon(self.height,self.nWidth,self.expantionFactor,self.enemyFactor,self.blockFactor,self.nPop,self.maxIter,self.mutationFactor,self.maxMoves)
+        return getDungeon(self.height,
+                          self.nWidth,
+                          self.expantionFactor,
+                          self.enemyFactor,
+                          self.blockFactor,
+                          self.nPop,
+                          self.maxIter,
+                          self.mutationFactor,
+                          self.maxMoves)
     
     def dungeonjson(self):
         return self.getDungeon()
@@ -47,7 +55,15 @@ class DataPetition(models.Model):
     @staticmethod
     def getDungeonDummy():
         #Create a dungeon with the general values
-        return getDungeon(generaldata['height'],generaldata['nWidth'],generaldata['expantionFactor'],generaldata['enemyFactor'],generaldata['blockFactor'],generaldata['nPop'],generaldata['maxIter'],generaldata['mutationFactor'],generaldata['maxMoves'])
+        return getMetadataDugeon(getDungeon(generaldata['height'],
+                                            generaldata['nWidth'],
+                                            generaldata['expantionFactor'],
+                                            generaldata['enemyFactor'],
+                                            generaldata['blockFactor'],
+                                            generaldata['nPop'],
+                                            generaldata['maxIter'],
+                                            generaldata['mutationFactor'],
+                                            generaldata['maxMoves']))
     def __str__(self):
         return f"{self.height}x{self.nWidth} Dungeon with {self.nPop} population and {self.maxIter} iterations"
 
