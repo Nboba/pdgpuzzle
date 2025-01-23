@@ -25,7 +25,7 @@ def getDungeon(height:int,nWidth:int,expantionFactor:float,enemyFactor:float,blo
     borderDungeon = getinitialSolution(height,nWidth,expantionFactor)
     population= getPopulation(borderDungeon,nPop,enemyFactor, blockFactor)
     dungeon = FI2Pop(population,maxIter,nPop,mutationFactor,maxMoves)
-    return dungeonToJson(dungeon.tolist())
+    return dungeon.tolist()
 
 def solDungeon(dungeon):
     if type(dungeon) != np.array:

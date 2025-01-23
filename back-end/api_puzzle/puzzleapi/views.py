@@ -10,7 +10,8 @@ from .models import DataPetition,DungeonData,PetitionManager
 def getDummyDungeon(request):
     try:
         return JsonResponse({'data':DataPetition.getDungeonDummy(),
-                             'response':'ok 200'})
+                             'response':'ok',
+                              'code': 200})
     except Exception as e:
         return JsonResponse({'response':str(e)})
     

@@ -1,0 +1,40 @@
+
+<nav>
+    <mat-toolbar>
+        <div  class="container-nav-bar">
+            @if(this.dataUser.sesionActive == false){
+                <div class="colum login">
+                    <a routerLink="/user" 
+                    class="nav-button">Login</a>
+                </div>
+            }
+            @else if (this.dataUser.sesionActive) {
+                <div class="colum">
+                    <h2>Bienvenido {{this.dataUser.userName}}</h2>
+                </div>
+                <div class="colum login">
+                    <a routerLink="/user" 
+                    class="nav-button" (click)="logOut()">Logout</a>
+                </div>
+            }
+            <div class="colum menu">
+                <button [cdkMenuTriggerFor]="menu"  class="example-standalone-trigger">
+                    <mat-icon class="material-icons-app">menu</mat-icon></button>
+
+            </div>  
+
+            <div class="colum app">
+                <a>My App</a>
+            </div>         
+        </div>
+    </mat-toolbar>
+</nav>
+
+
+<ng-template #menu>
+    <div class="example-menu" cdkMenu>
+      <button class="example-menu-item" cdkMenuItem>Perfil</button>
+      <button class="example-menu-item" cdkMenuItem>Settings</button>
+      <button class="example-menu-item" cdkMenuItem>Sign out</button>
+    </div>
+  </ng-template>

@@ -1,0 +1,17 @@
+
+@if(this.userInfo.loginActive == true && this.userInfo.sesionActive== false)
+{
+    <login-form />
+}@else if(this.userInfo.loginActive == false && this.userInfo.sesionActive == false)
+{
+    <register-form  />
+}
+<!-- @else {
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Sesion activa</h4>
+            <p>Bienvenido CTmre</p>
+            <mat-card-actions >
+                <button mat-flat-button  (click)="logOut()">Cerrar Sesion</button>
+            </mat-card-actions>
+        </div>
+} -->

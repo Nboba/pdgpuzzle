@@ -1,0 +1,41 @@
+table{
+    width: 10em;
+    margin:0 auto
+}
+
+button{
+    width: 8em;
+    margin: 0 auto;
+    display: block;
+}
+
+.blanco{
+    background-color: white;
+    width: 1em;
+    height:1em;
+}
+.cafe{
+    background-color: brown;
+    width: 1em;
+    height:1em;
+}
+.rojo{
+    background-color: red;
+    width: 1em;
+    height:1em;
+}
+.verde{
+    background-color: green;
+    width: 1em;
+    height:1em;
+}
+.azul{
+    background-color: blue;
+    width: 1em;
+    height:1em;
+}
+.gris{
+    background-color: grey;
+    width: 1em;
+    height:1em;
+}

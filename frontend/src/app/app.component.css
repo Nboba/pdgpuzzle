@@ -1,0 +1,9 @@
+footer{
+    height:150px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background-color:dodgerblue ;
+    max-height: 10rem;
+    height: 8rem;
+}

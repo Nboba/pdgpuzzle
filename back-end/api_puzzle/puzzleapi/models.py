@@ -57,7 +57,7 @@ class DungeonData(models.Model):
     nSol = models.IntegerField()
     minSol = models.IntegerField()
     solution= models.JSONField()
-    solutionPlayer= models.JSONField(default=dict())
+    solutionPlayer= models.JSONField()
     recordTime = models.TimeField(default='00:00:00')
     recordMoves = models.IntegerField(default=0)
     public = models.BooleanField(default=False)
