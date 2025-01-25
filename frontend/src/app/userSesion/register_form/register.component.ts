@@ -9,7 +9,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {userRegisterSerializer} from '../serializer/user-serializer';
 import { UserSesionService } from '../services/user-sesion.service';
-
+import{ NG_VALIDATORS,Validators} from '@angular/forms';
 @Component({
   selector: 'register-form',
   imports: [
@@ -28,12 +28,13 @@ export class RegisterComponent {
 
 
     protected registerForm=new FormGroup({
-      username: new FormControl(''),
-      password: new FormControl(''),
-      email: new FormControl('')
+      username: new FormControl('',Validators.required),
+      password: new FormControl('',Validators.required),
+      email: new FormControl('',[Validators.required,Validators.email])
   });
 
     async Register(){
+            console.log(this.registerForm);
             let formValue: UserRegister= userRegisterSerializer(this.registerForm.value);
             this.userData.loginActive=await this.apiService.postRegister(formValue);
         }

@@ -8,13 +8,13 @@ class DataPetition(models.Model):
     id = models.AutoField(primary_key=True)
     height= models.IntegerField()
     nWidth= models.IntegerField()
-    expantionFactor= models.FloatField()
-    enemyFactor= models.FloatField()
-    blockFactor= models.FloatField()
-    nPop= models.IntegerField()
-    mutationFactor= models.FloatField()
-    maxIter= models.IntegerField()
-    maxMoves= models.IntegerField()
+    expantion_factor= models.FloatField()
+    enemy_factor= models.FloatField()
+    block_factor= models.FloatField()
+    n_pop= models.IntegerField()
+    max_iter= models.IntegerField()
+    max_moves= models.IntegerField()
+    mutation_factor= models.FloatField()
 
     def __init__(self, **kwargs):
         super(DataPetition, self).__init__(**self.convertValues(**kwargs))
@@ -22,7 +22,7 @@ class DataPetition(models.Model):
 
     def checkLimitsValues(self):
         #Check if the values are in the limits
-        values=[self.height,self.nWidth,self.expantionFactor,self.enemyFactor,self.blockFactor,self.nPop,self.maxIter,self.maxMoves,self.mutationFactor]
+        values=[self.height,self.nWidth,self.expantion_factor,self.enemy_factor,self.block_factor,self.n_pop,self.max_iter,self.max_moves,self.mutation_factor]
         valueNames=['height','Width','expantion Factor','enemy Factor','block Factor','Population','Iteration','Moves','mutationFactor']
         for value,limit,name in zip(values,limitsData,valueNames):
             if value<limit[0] or value>limit[1]:
@@ -34,13 +34,13 @@ class DataPetition(models.Model):
         # Create a dungeon with the values of the petition
         return getDungeon(self.height,
                           self.nWidth,
-                          self.expantionFactor,
-                          self.enemyFactor,
-                          self.blockFactor,
-                          self.nPop,
-                          self.maxIter,
-                          self.mutationFactor,
-                          self.maxMoves)
+                          self.expantion_factor,
+                          self.enemy_factor,
+                          self.block_factor,
+                          self.n_pop,
+                          self.max_iter,
+                          self.mutation_factor,
+                          self.max_moves)
     
     def dungeonjson(self):
         return self.getDungeon()
@@ -70,37 +70,37 @@ class DataPetition(models.Model):
 
 class DungeonData(models.Model):
     dungeon=models.JSONField()
-    nSol = models.IntegerField()
-    minSol = models.IntegerField()
+    n_sol = models.IntegerField()
+    min_sol = models.IntegerField()
     solution= models.JSONField()
-    solutionPlayer= models.JSONField()
-    recordTime = models.TimeField(default='00:00:00')
-    recordMoves = models.IntegerField(default=0)
+    solution_player= models.JSONField()
+    record_time = models.TimeField(default='00:00:00')
+    record_moves = models.IntegerField(default=0)
     public = models.BooleanField(default=False)
     #userId = models.ForeignKey('User', on_delete=models.CASCADE)
     def __init__(self, **kwargs):
         super(DungeonData, self).__init__(**kwargs)
         self.calculateSolutions()
-        self.solutionPlayer = dict()
-        self.recordTime = '00:00:00'
-        self.recordMoves = 0
+        self.solution_player = dict()
+        self.record_time = '00:00:00'
+        self.record_moves = 0
         self.public = False
 
     def calculateSolutions(self):
         solu, nSol, minSol = solDungeon(self.dungeon)
         self.solution = solu
-        self.nSol = nSol
-        self.minSol = minSol
+        self.n_sol = nSol
+        self.min_sol = minSol
         
     
 
 class PetitionManager(models.Model):
     id = models.AutoField(primary_key=True)
     date = models.DateTimeField(auto_now_add=True,)
-    userID = models.ForeignKey(User, on_delete=models.CASCADE)
-    dungeonId = models.ForeignKey(DungeonData, on_delete=models.CASCADE)
-    petitionData = models.ForeignKey(DataPetition, on_delete=models.CASCADE)
-    statusP = models.CharField(choices={'P':'pending','C':'completed'},default='P')
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    dungeon_id = models.ForeignKey(DungeonData, on_delete=models.CASCADE)
+    petition_data = models.ForeignKey(DataPetition, on_delete=models.CASCADE)
+    status_p = models.CharField(choices={'P':'pending','C':'completed'},default='P')
 
     def checkStatus(self):
         return self.status

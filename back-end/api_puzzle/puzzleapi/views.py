@@ -23,14 +23,14 @@ def postPeticionDungeon(request,username):
              return JsonResponse({'response':'Usuario no existe'},status=400)
         else:
             userId=User.objects.get(username=username).id
-            if PetitionManager.objects.filter(userI=userId,statusP='pending').exists() == True:
+            if PetitionManager.objects.filter(user_id=userId,status_p='pending').exists() == True:
                 return JsonResponse({'response':'Usuario tiene una peticion pendiente'},status=
                                     400)
             else:
                 dataPetition= DataPetition(**params)
                 dataPetition.save()
                 petitionId=dataPetition.id
-                dungeonPetition=PetitionManager(userID=userId,petitionData=petitionId)
+                dungeonPetition=PetitionManager(user_id=userId,petition_data=petitionId)
                 dungeonPetition.save()
                 return JsonResponse({'response':'Peticion de creacion de dungeon Aceptada'},status=200)
     except Exception as e:

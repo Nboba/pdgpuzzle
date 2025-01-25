@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, Injectable, signal } from '@angular/core';
-import { GetResponse ,UserLogin,UserRegister,PostResponse, Puzzle} from '../models/puzzle-model';
+import {  Injectable } from '@angular/core';
+import { UserLogin,UserRegister} from '../models/puzzle-model';
 import { Observable } from 'rxjs';
 import { UserSesionService } from './user-sesion.service';
-
+import { rxResource } from "@angular/core/rxjs-interop";
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +14,14 @@ export class ApiDjangoService {
     constructor(private http: HttpClient ,private userData:UserSesionService) {
     }
 
-   getPuzzles():Observable<Puzzle>{
+   getPuzzles():Observable<any>{
      console.log(this.apiUrl+'Puzzle/Solution/')
-      return this.http.get<Puzzle>(this.apiUrl+'Puzzle/');
+      return this.http.get<any>(this.apiUrl+'Puzzle/');
   }
+  getPuzzlesres():Observable<any>{
+    console.log(this.apiUrl+'Puzzle/Solution/')
+     return this.http.get<any>(this.apiUrl+'Puzzle/');
+ }
 
   postRegister(userRegister:UserRegister): Promise<any> {
      return this.http.post(this.apiUrl + 'userApiregister/',{userRegister}).toPromise().
@@ -31,11 +35,7 @@ export class ApiDjangoService {
     postLogin(userLogin:UserLogin): Promise<boolean> {
       return this.http.post(this.apiUrl + 'userApilogin/',{userLogin}).toPromise().
       then((response:any) => {
-        this.userData.sesionToken=response.data.session_key;
-        this.userData.userName=response.data.username;
-        this.userData.userId=response.data.user_id;
-        this.userData.loginActive=true;
-        sessionStorage.setItem('sesionToken',this.userData.sesionToken);
+        this.userData.login(response)
         console.log('✅ Éxito:',response.status);
         return true;
       }).catch((error) => {
@@ -47,11 +47,7 @@ export class ApiDjangoService {
       return this.http.post(this.apiUrl + 'userApilogOut/',{'token':this.userData.sesionToken,
         'userId':this.userData.userId}).toPromise().
         then((response:any) => {
-          this.userData.sesionActive=false;
-          this.userData.sesionToken='';
-          this.userData.userName='';
-          this.userData.userId=-1;
-          sessionStorage.removeItem('sesionToken');
+          this.userData.logOut();
           console.log('✅ Éxito:',response.status);
           return false;
         }).catch((error) => {

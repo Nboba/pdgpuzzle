@@ -9,6 +9,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import {userSerializer} from '../serializer/user-serializer';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { UserSesionService } from '../services/user-sesion.service';
+import{Validators} from '@angular/forms';
 
 
 @Component({
@@ -25,8 +26,8 @@ import { UserSesionService } from '../services/user-sesion.service';
 export class LoginComponent {
     constructor(private apiService: ApiDjangoService,private userData:UserSesionService) { }
     protected loginForm=new FormGroup({
-        username: new FormControl(''),
-        password: new FormControl(''),
+        username: new FormControl('',Validators.required),
+        password: new FormControl('',Validators.required),
     });
 
    async Login(){

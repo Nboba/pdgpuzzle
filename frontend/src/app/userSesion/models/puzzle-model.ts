@@ -15,10 +15,6 @@ export interface GetResponse {
     dataDungeon: PuzzleModel[];
     response: string;
 }
-export interface Puzzle{
-    data:number[];
-}
-
 export interface PostResponse {
     data: any;
     message: string;

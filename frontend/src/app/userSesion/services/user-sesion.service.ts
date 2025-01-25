@@ -53,5 +53,20 @@ export class UserSesionService {
   public get sesionActive(): boolean{
     return this._sesionActive();
   }
+
+  public logOut(){
+    this.sesionActive=false;
+    this.sesionToken='';
+    this.userName='';
+    this.userId=-1;
+    sessionStorage.removeItem('sesionToken');
+  }
+  public login(response:any){
+    this.sesionToken=response.data.session_key;
+    this.userName=response.data.username;
+    this.userId=response.data.user_id;
+    this.loginActive=true;
+    sessionStorage.setItem('sesionToken',this.sesionToken);
+  } 
 }
 

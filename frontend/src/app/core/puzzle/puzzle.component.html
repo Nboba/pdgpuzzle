@@ -1,38 +1,46 @@
 
-<button (click)="getPuzzleData()">Obtener un puzzle</button>
-<table>
-<!-- 
-@for( row of this.puzzleData ; track $index; let i = $index)
-{
+<div class="puzzle-container">
+    <div class="buttons">
+        <button (click)="getPuzzleData()">Obtener un puzzle</button>
+        <button (click)="reset()">Resetear Puzzle</button>
+    </div>
 
-     <tr>
-        @for( col of this.getRow(row) ; track $index; let j = $index)
-        {
-            <td id="{{i}}-{{j}}" >
-                @switch (col)
-                {
-                    @case (0)  {
-                        <div class="blanco"></div>
+
+@if(this.puzzleData){
+    <table class="puzzle">
+    @for( row of this.puzzleData.puzzleDataRef ; track $index; let i = $index)
+    {
+    
+         <tr>
+            @for( col of this.getRow(row) ; track $index; let j = $index)
+            {
+                <td id="{{i}}-{{j}}" >
+                    @switch (col)
+                    {
+                        @case (0)  {
+                            <div class="blanco"></div>
+                        }
+                        @case (2){
+                            <div class="cafe"></div>
+                        }
+                        @case (3) {
+                            <div class="rojo"></div>
+                        }
+                        @case( 4) {
+                            <div class="verde"></div>
+                        }
+                        @case( 5) {
+                            <div class="azul"></div>
+                        }
+                        @default {
+                            <div class="gris"></div>
+                        }
                     }
-                    @case (2){
-                        <div class="cafe"></div>
-                    }
-                    @case (3) {
-                        <div class="rojo"></div>
-                    }
-                    @case( 4) {
-                        <div class="verde"></div>
-                    }
-                    @case( 5) {
-                        <div class="azul"></div>
-                    }
-                    @default {
-                        <div class="gris"></div>
-                    }
-                }
-            </td>
-        }
-    </tr>
+                </td>
+            }
+        </tr>
+    }
+    </table>
+    
 }
-</table>
- -->
+</div>

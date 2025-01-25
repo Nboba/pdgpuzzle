@@ -8,9 +8,7 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
       
       const modifiedReq = req.clone({
         headers: req.headers
-        .set('X-CSRFToken', token).
-        set('Authorization', 'Bearer ' 
-          + sessionStorage.getItem('sesionToken') || ''),
+        .set('X-CSRFToken', token),
         withCredentials: true
       });
       return next(modifiedReq);
@@ -19,3 +17,5 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
 
 
 
+/*       set('Authorization', 'Bearer ' 
+          + sessionStorage.getItem('sesionToken') || ''), */

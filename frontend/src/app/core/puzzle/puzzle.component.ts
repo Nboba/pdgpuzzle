@@ -1,26 +1,30 @@
 import { Component,inject } from '@angular/core';
 import { ApiDjangoService } from '../../userSesion/services/api-django.service';
-import { Puzzle } from '../../userSesion/models/puzzle-model';
+import { PuzzleService } from '../services/puzzle.service';
+import { SignalType } from '../model/models';
 
 @Component({
   selector: 'app-puzzle',
   imports: [
 
   ],host: {
-    '(keydown)': 'botonAbajo($event)',
+    '(keydown)': 'puzzleData.buttonDown($event)',
   },
   templateUrl: './puzzle.component.html',
   styleUrl: './puzzle.component.css'
 })
 export class PuzzleComponent {
-  protected apiService= inject(ApiDjangoService);
-  protected puzzleData:Puzzle[]=[];
-  protected playeri_j=[0,0];
+  protected puzzleData= inject(PuzzleService);
+  constructor( private apiService: ApiDjangoService) { }
 
   async getPuzzleData(){
      await this.apiService.getPuzzles().subscribe((data) => {
-      this.puzzleData = JSON.parse(JSON.stringify(data));
-      console.log(this.puzzleData);
+      let dataParse = JSON.parse(JSON.stringify(data));
+      this.puzzleData.puzzleDataRef = dataParse[0].dungeon;
+      this.puzzleData.playeri_j = [dataParse[0].playerPos[0][0],dataParse[0].playerPos[0][1]];
+      this.puzzleData.initialPlayeri_j = [dataParse[0].playerPos[0][0],dataParse[0].playerPos[0][1]];
+      this.puzzleData.doorpoosition = dataParse[0].doorPos;
+      this.puzzleData.enemyPosition = dataParse[0].enemyPos;
      }); 
   }
 
@@ -28,7 +32,10 @@ export class PuzzleComponent {
     return aux;
   }
   botonAbajo(event: KeyboardEvent){
-    console.log('abajo',event);
+      this.puzzleData.buttonDown(event);
+  }
+  reset(){
+    this.puzzleData.resetPuzzle();
   }
 
 }

@@ -31,7 +31,7 @@ def getMetadataDugeon(dungeon):
     playerPos = np.stack(np.where(dungeon == 5),axis=1).tolist()
     doorPos = np.stack(np.where(dungeon == 4),axis=1).tolist()
     enemyPos = np.stack(np.where(dungeon == 3),axis=1).tolist()
-    return [dungeon.tolist(),playerPos, doorPos, enemyPos]
+    return {'dungeon':dungeon.tolist(),'playerPos':playerPos, 'doorPos':doorPos, 'enemyPos':enemyPos}
 
 def solDungeon(dungeon):
     if type(dungeon) != np.array:
