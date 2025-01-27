@@ -1,19 +1,23 @@
 from django.http import HttpResponse
 from django.http import JsonResponse
-
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import ensure_csrf_cookie,requires_csrf_token
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_POST
+from django.core.validators import validate_email
+
 import json
 # Create your views here.
 
 @ensure_csrf_cookie
-@require_http_methods(["POST"])
+@require_POST()
 def registerApi(request):
     try:
         data=json.loads(request.body)['userRegister']
+        validate_email(data['email'])
         if len(data["username"])==0:
             return HttpResponse(content="Username is required.",status=400)
         if len(data["password"])==0:
@@ -37,7 +41,7 @@ def registerApi(request):
     
 
 @ensure_csrf_cookie
-@require_http_methods(["POST"])
+@require_POST()
 def loginApi(request):
     try:
         data=json.loads(request.body)['userLogin']
@@ -47,7 +51,7 @@ def loginApi(request):
             request.session["member_id"] = user.id
             return JsonResponse({'data':{'username':user.username,
                                  'user_id':request.session["member_id"],
-                                 'session_key':request.session.session_key},
+                                 'session_key':request.session.session},
                          'message':"You're logged in.",
                          'status':200},safe=False)
         if len(data["username"])==0:

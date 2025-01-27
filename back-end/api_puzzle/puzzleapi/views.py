@@ -4,7 +4,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth.models import User
 
-from .models import DataPetition,DungeonData,PetitionManager
+from .models import DataPetition
+from .models import DungeonData
+from .models import PetitionManager
 # Create your views here.
 @ensure_csrf_cookie
 def getDummyDungeon(request):

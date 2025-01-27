@@ -1,0 +1,32 @@
+.petition-card{
+    width: 40rem;
+    display: grid;
+    margin: 0 auto;
+    grid-template-rows: 1fr 2fr 1fr ;
+}
+
+.card-header{
+    grid-row: 1;
+    margin:0 auto;
+}
+.card-content{
+    
+    grid-row: 2;
+    padding: 0 15px;
+}
+.form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(5, 1fr);
+}
+.even{
+    grid-column: 2;
+}
+.odd{
+    grid-column: 1;
+}
+.buttonDiv{
+    grid-row: 3;
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr;
+}

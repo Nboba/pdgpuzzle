@@ -1,1 +1,34 @@
-<p>formulario-puzzle works!</p>
+<mat-card class="petition-card">
+
+    <mat-card-header class="card-header">
+        <mat-card-title>
+            <h1>Generar Puzzle</h1>
+        </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="card-content">
+        <form [formGroup]="PetitionPuzleForm" class="form">
+            @for(slider of this.formConfiguration; track slider.label ;let even=$even){
+                <div class="{{even?'odd':'even'}}">
+                    <label>{{slider.label}}</label>
+                    <mat-slider
+                    class="example-margin"
+                    [max]="slider.max"
+                    [min]="slider.min"
+                    [step]="slider.step"
+                    [discrete]= true
+                    showTickMarks>
+                        <input matSliderThumb  [formControl]="getForm(slider.nameInput)" #slider>
+                    </mat-slider>
+                </div>
+                }
+        </form>
+    </mat-card-content>
+
+    <div class="buttonDiv">
+        <mat-card-actions class=" buttons-generar">
+            <button mat-flat-button (click)="enviarPetition()" class="button-i" >Generar</button>
+        </mat-card-actions>
+
+    </div>
+</mat-card>

@@ -26,13 +26,19 @@ import{Validators} from '@angular/forms';
 export class LoginComponent {
     constructor(private apiService: ApiDjangoService,private userData:UserSesionService) { }
     protected loginForm=new FormGroup({
-        username: new FormControl('',Validators.required),
-        password: new FormControl('',Validators.required),
+        username: new FormControl(null,Validators.required),
+        password: new FormControl(null,Validators.required),
     });
 
    async Login(){
-        let formValue: UserLogin= userSerializer(this.loginForm.value);
-        this.userData.sesionActive=await this.apiService.postLogin(formValue);
+    if(this.loginForm.valid){
+      let formValue: UserLogin= userSerializer(this.loginForm.value);
+      this.userData.sesionActive=await this.apiService.postLogin(formValue);
+    }
+    else{
+      alert("Error en los datos ingresados");
+    };
+
 
       };
       

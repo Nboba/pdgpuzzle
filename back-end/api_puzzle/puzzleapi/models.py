@@ -1,36 +1,35 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-from .puzzle.dungeonGet import solDungeon,getDungeon,getMetadataDugeon
-from .puzzle.generalData import generaldata,limitsData,textToFloatInt
 from django.contrib.auth.models import User
-# Create your models here.
+
+from .puzzle.dungeonGet import solDungeon
+from .puzzle.dungeonGet import getDungeon
+from .puzzle.dungeonGet import getMetadataDugeon
+from .puzzle.generalData import generaldata
+from .puzzle.generalData import textToFloatInt
+from . import validators
+
+
+generaldata={'height':7,'nWidth':7,'expantionFactor':0.1, 'enemyFactor':0.083, 
+             'blockFactor':0.1,'nPop':12, 'maxIter':40, 'mutationFactor':0.5, 'maxMoves':12}
+
 class DataPetition(models.Model):
     id = models.AutoField(primary_key=True)
-    height= models.IntegerField()
-    nWidth= models.IntegerField()
-    expantion_factor= models.FloatField()
-    enemy_factor= models.FloatField()
-    block_factor= models.FloatField()
-    n_pop= models.IntegerField()
-    max_iter= models.IntegerField()
-    max_moves= models.IntegerField()
-    mutation_factor= models.FloatField()
+    height= models.IntegerField(default=7 ,validators= [validators.validate_height])
+    nWidth= models.IntegerField(default=7 ,validators= [validators.validate_nWidth])
+    expantion_factor= models.FloatField(default=0.1 ,validators= [validators.validate_expantion_factor])
+    enemy_factor= models.FloatField(default=0.083 ,validators= [validators.validate_enemy_factor]) 
+    block_factor= models.FloatField(default= 0.1,validators= [validators.validate_block_factor]) 
+    n_pop= models.IntegerField(default=12 ,validators= [validators.validate_n_pop])
+    max_iter= models.IntegerField(default=20 ,validators= [validators.validate_max_iter])
+    max_moves= models.IntegerField(default= 0.5,validators= [validators.validate_max_moves])
+    mutation_factor= models.FloatField(default=12 ,validators= [validators.validate_mutation_factor])
 
     def __init__(self, **kwargs):
         super(DataPetition, self).__init__(**self.convertValues(**kwargs))
-        self.checkLimitsValues()
 
-    def checkLimitsValues(self):
-        #Check if the values are in the limits
-        values=[self.height,self.nWidth,self.expantion_factor,self.enemy_factor,self.block_factor,self.n_pop,self.max_iter,self.max_moves,self.mutation_factor]
-        valueNames=['height','Width','expantion Factor','enemy Factor','block Factor','Population','Iteration','Moves','mutationFactor']
-        for value,limit,name in zip(values,limitsData,valueNames):
-            if value<limit[0] or value>limit[1]:
-                raise ValidationError(f"The \"{name}\" value must be between {limit[0]} and {limit[1]}")
-        return True
     
     def getDungeon(self):
-        self.checkLimitsValues()
         # Create a dungeon with the values of the petition
         return getDungeon(self.height,
                           self.nWidth,
@@ -41,9 +40,7 @@ class DataPetition(models.Model):
                           self.max_iter,
                           self.mutation_factor,
                           self.max_moves)
-    
-    def dungeonjson(self):
-        return self.getDungeon()
+
 
     @staticmethod
     def convertValues(**params):

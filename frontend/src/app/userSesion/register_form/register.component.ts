@@ -1,15 +1,20 @@
-import { Component, output } from '@angular/core';
+import { Component } from '@angular/core';
+import{ Validators} from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import {FormGroup, FormControl} from '@angular/forms';
-import {ApiDjangoService} from '../services/api-django.service';
-import { UserRegister} from '../models/puzzle-model';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {userRegisterSerializer} from '../serializer/user-serializer';
+
 import { UserSesionService } from '../services/user-sesion.service';
-import{ NG_VALIDATORS,Validators} from '@angular/forms';
+import {ApiDjangoService} from '../services/api-django.service';
+
+import { UserRegister} from '../models/puzzle-model';
+
+import {userRegisterSerializer} from '../serializer/user-serializer';
+import { noSpecialCharacters,noOnlyNumbers } from '../validators/validators-forms';
+
 @Component({
   selector: 'register-form',
   imports: [
@@ -28,16 +33,20 @@ export class RegisterComponent {
 
 
     protected registerForm=new FormGroup({
-      username: new FormControl('',Validators.required),
-      password: new FormControl('',Validators.required),
-      email: new FormControl('',[Validators.required,Validators.email])
+      username: new FormControl(null,[Validators.required,noSpecialCharacters,noOnlyNumbers]),
+      password: new FormControl(null,[Validators.required,noOnlyNumbers]),
+      email: new FormControl(null,[Validators.required,Validators.email])
   });
 
     async Register(){
-            console.log(this.registerForm);
-            let formValue: UserRegister= userRegisterSerializer(this.registerForm.value);
-            this.userData.loginActive=await this.apiService.postRegister(formValue);
-        }
+        if(this.registerForm.valid){
+          let formValue: UserRegister= userRegisterSerializer(this.registerForm.value);
+          this.userData.loginActive=await this.apiService.postRegister(formValue);
+      }
+      else{
+        alert("Error en los datos ingresados");
+      }
+    }
 
     public volver():void{
       this.userData.loginActive=true;
