@@ -13,7 +13,7 @@ import json
 # Create your views here.
 
 @ensure_csrf_cookie
-@require_POST()
+@require_POST
 def registerApi(request):
     try:
         data=json.loads(request.body)['userRegister']
@@ -41,7 +41,7 @@ def registerApi(request):
     
 
 @ensure_csrf_cookie
-@require_POST()
+@require_POST
 def loginApi(request):
     try:
         data=json.loads(request.body)['userLogin']
@@ -50,8 +50,7 @@ def loginApi(request):
             login(request, user)
             request.session["member_id"] = user.id
             return JsonResponse({'data':{'username':user.username,
-                                 'user_id':request.session["member_id"],
-                                 'session_key':request.session.session},
+                                 'user_id':request.session["member_id"]},
                          'message':"You're logged in.",
                          'status':200},safe=False)
         if len(data["username"])==0:

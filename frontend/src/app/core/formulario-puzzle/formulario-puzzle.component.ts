@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import {FormGroup, FormControl,ReactiveFormsModule, FormRecord} from '@angular/forms';
+import { FormControl,ReactiveFormsModule, FormRecord} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
-import{MatFormFieldModule} from '@angular/material/form-field'
 import {MatSliderModule} from '@angular/material/slider';
-import{puzzleFormConfigurations} from '../model/models';
+import{puzzleFormConfigurations,PetitionPuzzleApi} from '../model/models';
+import{PetitionPuzzleService } from '../services/petition-puzzle.service';
 
 @Component({
   selector: 'app-formulario-puzzle',
@@ -26,18 +26,35 @@ export class FormularioPuzzleComponent {
     protected PetitionPuzleForm = new FormRecord<FormControl>({});
     protected formConfiguration:puzzleFormConfigurations[];
 
-    constructor() { 
+    constructor( private petitionService:PetitionPuzzleService)
+    { 
       this.formConfiguration=puzzleFormConfigurations;
       this.formConfiguration.map((config:puzzleFormConfigurations)=>{
         this.PetitionPuzleForm.addControl(config.nameInput,new FormControl(config.default));
       })
 
     }
+
     enviarPetition()
     {
-
+        let petition:PetitionPuzzleApi={height:this.getValue('height'),
+                                        width:this.getValue('width'),
+                                        expantionFactor:this.getValue('expantionFactor'),
+                                        enemyFactor:this.getValue('enemyFactor'),
+                                        blockFactor:this.getValue('blockFactor'),
+                                        nPop:this.getValue('nPop'),
+                                        maxIter:this.getValue('maxIter'),
+                                        maxMoves:this.getValue('maxMoves'),
+                                        mutationFactor:this.getValue('mutationFactor')};
+        console.log(petition);
+        this.petitionService.postPetition(petition).subscribe((response)=>{
+            console.log(response);
+        });
     }
     getForm(name:string):FormControl{
         return this.PetitionPuzleForm.get(name) as FormControl;
+    }
+    getValue(name:string):number{
+        return (this.PetitionPuzleForm.get(name) as FormControl).value ;
     }
 }

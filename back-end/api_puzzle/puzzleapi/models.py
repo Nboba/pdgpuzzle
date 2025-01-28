@@ -45,7 +45,7 @@ class DataPetition(models.Model):
     @staticmethod
     def convertValues(**params):
         #Convert the values of the petition to the needed type and add the general values
-        params= {**generaldata,**params}
+        print(params)
         params = [(param[0],textToFloatInt(param[1])) if (type(param[1]) == list) else param for param in params.items()]
         return dict(params)
     
@@ -70,11 +70,11 @@ class DungeonData(models.Model):
     n_sol = models.IntegerField()
     min_sol = models.IntegerField()
     solution= models.JSONField()
-    solution_player= models.JSONField()
+    solution_player= models.JSONField(default=dict)
     record_time = models.TimeField(default='00:00:00')
     record_moves = models.IntegerField(default=0)
     public = models.BooleanField(default=False)
-    #userId = models.ForeignKey('User', on_delete=models.CASCADE)
+    userId = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
     def __init__(self, **kwargs):
         super(DungeonData, self).__init__(**kwargs)
         self.calculateSolutions()
@@ -95,7 +95,7 @@ class PetitionManager(models.Model):
     id = models.AutoField(primary_key=True)
     date = models.DateTimeField(auto_now_add=True,)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    dungeon_id = models.ForeignKey(DungeonData, on_delete=models.CASCADE)
+    dungeon_id = models.ForeignKey(DungeonData, on_delete=models.CASCADE,null=True)
     petition_data = models.ForeignKey(DataPetition, on_delete=models.CASCADE)
     status_p = models.CharField(choices={'P':'pending','C':'completed'},default='P')
 

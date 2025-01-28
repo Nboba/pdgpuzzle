@@ -22,7 +22,7 @@ export interface puzzleFormConfigurations{
     nameInput:string
 }
 
-export const puzzleFormConfigurations:puzzleFormConfigurations[]=[{'label':"altura",'max':10,'min':4,'step':1,'default':5,'nameInput':"height"}, //height
+export const puzzleFormConfigurations:puzzleFormConfigurations[]=[{'label':"Altura",'max':10,'min':4,'step':1,'default':5,'nameInput':"height"}, //height
                                                                      {'label':"Ancho",'max':10,'min':4,'step':1,'default':5,'nameInput':"width"}, // widht
                                                                      {'label':"Factor de Expancion",'max':0.50,'min':0.01,'step':0.001,'default':0.13,'nameInput':"expantionFactor"}, //expantionFactor
                                                                      {'label':"Factor de Enemigos",'max':0.15,'min':0.01,'step':0.001,'default':0.083,'nameInput':"enemyFactor"}, //enemyFactor
@@ -34,3 +34,14 @@ export const puzzleFormConfigurations:puzzleFormConfigurations[]=[{'label':"altu
 
                                                                      
 
+export interface PetitionPuzzleApi{
+    height:number,
+    width:number,
+    expantionFactor:number,
+    enemyFactor:number,
+    blockFactor:number,
+    nPop:number,
+    maxIter:number,
+    maxMoves:number,
+    mutationFactor:number
+}

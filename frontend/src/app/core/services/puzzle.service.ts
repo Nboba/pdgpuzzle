@@ -1,7 +1,5 @@
 import { Injectable,signal } from '@angular/core';
-import { Puzzle } from '../model/models';
 import { SignalType,keySignal } from '../model/models';
-import { timeInterval } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })

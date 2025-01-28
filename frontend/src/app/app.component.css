@@ -1,9 +1,18 @@
+
+body {
+    background: #363636;
+    border-left: 1px solid #111;
+    border-right: 1px solid #111;
+    margin: 0 22.5%;
+    position:relative
+}
+
 footer{
-    height:150px;
-    width: 100%;
-    position: fixed;
+    background-color: #707070;
+    height: 2em;
+    left: 0;
+    position: fixed; 
     bottom: 0;
-    background-color:dodgerblue ;
-    max-height: 10rem;
-    height: 8rem;
+    font-size: small;
+    width:100%;
 }

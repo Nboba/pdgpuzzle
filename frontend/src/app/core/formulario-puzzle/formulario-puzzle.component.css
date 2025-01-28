@@ -1,8 +1,9 @@
 .petition-card{
-    width: 40rem;
+    width: 50rem;
     display: grid;
     margin: 0 auto;
     grid-template-rows: 1fr 2fr 1fr ;
+    max-height: 33rem;
 }
 
 .card-header{
@@ -13,11 +14,24 @@
     
     grid-row: 2;
     padding: 0 15px;
+    min-height: fit-content;
 }
 .form{
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(5, 1fr);
+}
+.mat-slider{
+    width: 90%;
+
+}
+.label-value{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+.label-va{
+    display:grid;
+    justify-content: center;
 }
 .even{
     grid-column: 2;
@@ -25,8 +39,23 @@
 .odd{
     grid-column: 1;
 }
-.buttonDiv{
-    grid-row: 3;
-    display: grid;
-    grid-template-columns: 3fr 1fr 1fr;
+
+.buttons-generar{
+  display: grid;    
+  justify-content: center;
+  padding: 0;
+}
+
+.slider{
+    max-height: 8rem;
+}
+
+label{
+    font-size: 1.16rem;
+}
+
+.button-i{
+  height: 4rem;
+  width: 10rem;
+  font-size: 2.1rem;
 }

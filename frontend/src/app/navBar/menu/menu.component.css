@@ -32,12 +32,12 @@ mat-toolbar{
 
 .container-nav-bar{
   display: inline-grid; 
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 1fr 2fr  repeat(8,1fr);
   margin:0 2em
 }
 
 .menu{
-    grid-column:8;
+    grid-column:10;
 }
 
 a{
@@ -48,6 +48,10 @@ a{
 }
 .login{
     grid-column: 7;
+    font-size: 2.5rem;
+}
+.generar{
+    grid-column: 8;
     font-size: 2.5rem;
 }
 

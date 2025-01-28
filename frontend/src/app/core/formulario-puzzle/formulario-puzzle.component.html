@@ -9,14 +9,17 @@
     <mat-card-content class="card-content">
         <form [formGroup]="PetitionPuzleForm" class="form">
             @for(slider of this.formConfiguration; track slider.label ;let even=$even){
-                <div class="{{even?'odd':'even'}}">
-                    <label>{{slider.label}}</label>
+                <div class="{{even?'odd':'even'}} slider">
+                    <div class="label-value">
+                        <label>{{slider.label}}</label>
+                        <label class="label-va">{{this.getValue(slider.nameInput)}}</label>
+                    </div>
+                    
                     <mat-slider
-                    class="example-margin"
+                    class="mat-slider"
                     [max]="slider.max"
                     [min]="slider.min"
                     [step]="slider.step"
-                    [discrete]= true
                     showTickMarks>
                         <input matSliderThumb  [formControl]="getForm(slider.nameInput)" #slider>
                     </mat-slider>
