@@ -36,16 +36,28 @@ def postPeticionDungeon(request,username):
                 dataPetition.save()
                 dungeonPetition=PetitionManager(user_id=user,petition_data=dataPetition,status_p='pending')
                 dungeonPetition.save()
-                return JsonResponse({'response':'Peticion de creacion de dungeon Aceptada'},status=200)
+                return JsonResponse({'response':'Peticion de creacion de dungeon Aceptada','status':200})
     except Exception as e:
         return JsonResponse({'response':str(e)})  
-    
+ 
 @ensure_csrf_cookie   
-def getDungeon(request,idUser):
+def getPublicDungeon(request,idUser):
     try:
-        dataDungeon = list(DungeonData.objects.all().values())
+        dataDungeon = list(DungeonData.objects.filter(public=True))
         
         return JsonResponse({'DataDungeon':dataDungeon,
-                                'response':'ok 200'})
+                                'response':'ok',
+                                'status':200},safe=False)
+    except Exception as e:
+        return JsonResponse({'response':str(e)})
+    
+
+@ensure_csrf_cookie
+def getDungeonUser(request,idUser):
+    try:
+        dataDungeon = list(DungeonData.objects.filter(userId=idUser))
+        return JsonResponse({'DataDungeon':dataDungeon,
+                                'response':'ok',
+                                'status':200},safe=False)
     except Exception as e:
         return JsonResponse({'response':str(e)})

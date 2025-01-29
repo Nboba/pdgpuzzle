@@ -8,6 +8,7 @@ from .puzzle.dungeonGet import getMetadataDugeon
 from .puzzle.generalData import generaldata
 from .puzzle.generalData import textToFloatInt
 from . import validators
+import json as JSON
 
 
 generaldata={'height':7,'nWidth':7,'expantionFactor':0.1, 'enemyFactor':0.083, 
@@ -25,13 +26,11 @@ class DataPetition(models.Model):
     max_moves= models.IntegerField(default= 0.5,validators= [validators.validate_max_moves])
     mutation_factor= models.FloatField(default=12 ,validators= [validators.validate_mutation_factor])
 
-    def __init__(self, **kwargs):
-        super(DataPetition, self).__init__(**self.convertValues(**kwargs))
 
     
     def getDungeon(self):
         # Create a dungeon with the values of the petition
-        return getDungeon(self.height,
+        return JSON.dumps({'dungeon':getDungeon(self.height,
                           self.nWidth,
                           self.expantion_factor,
                           self.enemy_factor,
@@ -39,7 +38,7 @@ class DataPetition(models.Model):
                           self.n_pop,
                           self.max_iter,
                           self.mutation_factor,
-                          self.max_moves)
+                          self.max_moves).tolist()},sort_keys=True)
 
 
     @staticmethod
@@ -66,6 +65,7 @@ class DataPetition(models.Model):
 
 
 class DungeonData(models.Model):
+    id= models.AutoField(primary_key=True)
     dungeon=models.JSONField()
     n_sol = models.IntegerField()
     min_sol = models.IntegerField()
@@ -78,10 +78,6 @@ class DungeonData(models.Model):
     def __init__(self, **kwargs):
         super(DungeonData, self).__init__(**kwargs)
         self.calculateSolutions()
-        self.solution_player = dict()
-        self.record_time = '00:00:00'
-        self.record_moves = 0
-        self.public = False
 
     def calculateSolutions(self):
         solu, nSol, minSol = solDungeon(self.dungeon)

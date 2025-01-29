@@ -48,6 +48,7 @@ CORS_ALLOW_HEADERS = [
 # Hosts permitidos
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # Application definition
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -59,8 +60,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'puzzleapi',
     'userApi',
+    'django_apscheduler',
+    'puzzleapi',
+
 
 ]
 

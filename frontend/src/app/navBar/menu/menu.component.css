@@ -53,14 +53,23 @@ a{
 .generar{
     grid-column: 8;
     font-size: 2.5rem;
+    :hover{
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 4px;
+    }
 }
 
 .colum{
   width: 100%;
   display: inline-grid;
   align-items: center;
-  grid-row: 1;
+  grid-row: 2;
   max-width: 150px;
+}
+.username{
+  grid-row: 1;
+  grid-column: 10;
 }
 
 
@@ -79,6 +88,7 @@ a{
   }
   
   .example-menu-item,
+
   .example-standalone-trigger {
     background-color: transparent;
     cursor: pointer;
