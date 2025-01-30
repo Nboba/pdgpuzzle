@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import {  Injectable } from '@angular/core';
-import { UserLogin,UserRegister} from '../models/puzzle-model';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+
 import { UserSesionService } from './user-sesion.service';
-import { rxResource } from "@angular/core/rxjs-interop";
+import { UserLogin,UserRegister} from '../models/puzzle-model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { rxResource } from "@angular/core/rxjs-interop";
 export class ApiDjangoService {
   private apiUrl='http://localhost:8000/';
 
-    constructor(private http: HttpClient ,private userData:UserSesionService) {
+    constructor(private http: HttpClient ,private userData:UserSesionService,private router:Router) {
     }
 
    getPuzzles():Observable<any>{
@@ -37,6 +38,7 @@ export class ApiDjangoService {
       then((response:any) => {
         this.userData.login(response)
         console.log('✅ Éxito:',response.status);
+        this.router.navigate(['user/panel']);
         return true;
       }).catch((error) => {
         console.log('❌ Error:', error)
@@ -49,6 +51,7 @@ export class ApiDjangoService {
         then((response:any) => {
           this.userData.logOut();
           console.log('✅ Éxito:',response.status);
+          this.router.navigate(['user']);
           return false;
         }).catch((error) => {
           console.log('❌ Error:', error)

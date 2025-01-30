@@ -18,6 +18,7 @@ def async_generate_dungeons():
                     data_dungeon = petition.petition_data.getDungeon()
                     user=User.objects.get(id=petition.user_id.id)
                     dungeon_data = DungeonData(dungeon=data_dungeon, userId=user)
+                    dungeon_data.calculateSolutions()
                     dungeon_data.save()
                     petition.dungeon_id = dungeon_data
                     petition.status_p = 'completado'

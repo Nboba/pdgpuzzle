@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ApiDjangoService } from './userSesion/services/api-django.service';
 import { MenuComponent } from './navBar/menu/menu.component';
-import {  RouterOutlet } from '@angular/router';
+import {  RouterOutlet , RouterLink, RouterLinkActive} from '@angular/router';
 import { FooterComponent } from './footer/footer/footer.component';
 
 @Component({
@@ -11,6 +11,8 @@ import { FooterComponent } from './footer/footer/footer.component';
     RouterOutlet,
     MenuComponent,
     FooterComponent,
+    RouterLink, 
+    RouterLinkActive
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

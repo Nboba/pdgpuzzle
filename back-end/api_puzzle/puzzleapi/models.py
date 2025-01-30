@@ -23,8 +23,8 @@ class DataPetition(models.Model):
     block_factor= models.FloatField(default= 0.1,validators= [validators.validate_block_factor]) 
     n_pop= models.IntegerField(default=12 ,validators= [validators.validate_n_pop])
     max_iter= models.IntegerField(default=20 ,validators= [validators.validate_max_iter])
-    max_moves= models.IntegerField(default= 0.5,validators= [validators.validate_max_moves])
-    mutation_factor= models.FloatField(default=12 ,validators= [validators.validate_mutation_factor])
+    max_moves= models.IntegerField(default= 12,validators= [validators.validate_max_moves])
+    mutation_factor= models.FloatField(default=0.5 ,validators= [validators.validate_mutation_factor])
 
 
     
@@ -40,13 +40,6 @@ class DataPetition(models.Model):
                           self.mutation_factor,
                           self.max_moves).tolist()},sort_keys=True)
 
-
-    @staticmethod
-    def convertValues(**params):
-        #Convert the values of the petition to the needed type and add the general values
-        print(params)
-        params = [(param[0],textToFloatInt(param[1])) if (type(param[1]) == list) else param for param in params.items()]
-        return dict(params)
     
     @staticmethod
     def getDungeonDummy():
@@ -69,21 +62,29 @@ class DungeonData(models.Model):
     dungeon=models.JSONField()
     n_sol = models.IntegerField()
     min_sol = models.IntegerField()
+    player_pos=models.JSONField(default=dict)
+    door_pos=models.JSONField(default=dict)
+    enemy_pos=models.JSONField(default=dict)
     solution= models.JSONField()
     solution_player= models.JSONField(default=dict)
     record_time = models.TimeField(default='00:00:00')
     record_moves = models.IntegerField(default=0)
     public = models.BooleanField(default=False)
     userId = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
-    def __init__(self, **kwargs):
-        super(DungeonData, self).__init__(**kwargs)
-        self.calculateSolutions()
+
 
     def calculateSolutions(self):
-        solu, nSol, minSol = solDungeon(self.dungeon)
-        self.solution = solu
-        self.n_sol = nSol
-        self.min_sol = minSol
+        self.solution, self.n_sol , self.min_sol = solDungeon(self.dungeon)
+        self.player_pos,self.door_pos,self.enemy_pos =getMetadataDugeon(self.dungeon)
+
+    def prepareData(self):
+        return {'dungeon':self.dungeon,
+                'n_sol':self.n_sol,
+                'min_sol':self.min_sol,
+                'solution':self.solution,
+                'solution_player':self.solution_player,
+                'record_time':self.record_time,
+                'record_moves':self.record_moves}
         
     
 

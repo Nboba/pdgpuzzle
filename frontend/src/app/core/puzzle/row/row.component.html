@@ -1,0 +1,26 @@
+@for( cell of this.row()  ; track $index; let j = $index)
+    {
+        <td  >
+            @switch (cell)
+            {
+                @case (0)  {
+                    <div class="blanco"></div>
+                }
+                @case (2){
+                    <div class="cafe"></div>
+                }
+                @case (3) {
+                    <div class="rojo"></div>
+                }
+                @case( 4) {
+                    <div class="verde"></div>
+                }
+                @case( 5) {
+                    <div class="azul"></div>
+                }
+                @default {
+                    <div class="gris"></div>
+                }
+            }
+        </td>
+    }

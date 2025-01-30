@@ -4,8 +4,12 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatSliderModule} from '@angular/material/slider';
+import {Router} from '@angular/router';
+
 import{puzzleFormConfigurations,PetitionPuzzleApi} from '../model/models';
 import{PetitionPuzzleService } from '../services/petition-puzzle.service';
+import { interval, timeout } from 'rxjs';
+
 
 @Component({
   selector: 'app-formulario-puzzle',
@@ -26,7 +30,7 @@ export class FormularioPuzzleComponent {
     protected PetitionPuzleForm = new FormRecord<FormControl>({});
     protected formConfiguration:puzzleFormConfigurations[];
 
-    constructor( private petitionService:PetitionPuzzleService)
+    constructor( private petitionService:PetitionPuzzleService, private router:Router)
     { 
       this.formConfiguration=puzzleFormConfigurations;
       this.formConfiguration.map((config:puzzleFormConfigurations)=>{
@@ -48,6 +52,14 @@ export class FormularioPuzzleComponent {
                                         mutationFactor:this.getValue('mutationFactor')};
         console.log(petition);
         this.petitionService.postPetition(petition).subscribe((response)=>{
+          if(response.status==200){
+            alert(response.response)
+            setTimeout(()=>{
+              this.router.navigate(['user/panel']);
+          },1000);
+
+
+          }
             console.log(response);
         });
     }

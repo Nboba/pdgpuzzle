@@ -6,36 +6,6 @@ button{
     display: block;
 }
 
-.blanco{
-    background-color: white;
-    width: 3em;
-    height:3em;
-}
-.cafe{
-    background-color:#994318;
-    width: 3em;
-    height:3em;
-}
-.rojo{
-    background-color: red;
-    width: 3em;
-    height:3em;
-}
-.verde{
-    background-color: green;
-    width: 3em;
-    height:3em;
-}
-.azul{
-    background-color: blue;
-    width: 3em;
-    height:3em;
-}
-.gris{
-    background-color: grey;
-    width: 3em;
-    height:3em;
-}
 
 .puzzle-container{
     width: 24em;

@@ -2,7 +2,7 @@ import { Component,   inject } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {RouterLink} from '@angular/router';
+import {RouterLink,Router} from '@angular/router';
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
 import { ApiDjangoService } from '../../userSesion/services/api-django.service';
 import { UserSesionService } from '../../userSesion/services/user-sesion.service';
@@ -25,6 +25,7 @@ export class MenuComponent {
     protected apiService= inject(ApiDjangoService);
     protected dataUser=inject(UserSesionService);
     
+    constructor(private router:Router) { }
      
   async logOut(){
     await this.apiService.logOut();

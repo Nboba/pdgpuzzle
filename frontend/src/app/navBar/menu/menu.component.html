@@ -12,10 +12,6 @@
                 <div class="colum username">
                     <h2>Bienvenido {{this.dataUser.userName}}</h2>
                 </div>
-                <div class="colum login">
-                    <a routerLink="/user" 
-                    class="nav-button" (click)="logOut()">Logout</a>
-                </div>
                 <div class="colum generar">
                     <a routerLink="/user/petition" 
                     class="nav-button" >Generar puzzle</a>
@@ -39,6 +35,6 @@
     <div class="example-menu" cdkMenu>
       <button class="example-menu-item" cdkMenuItem>Perfil</button>
       <button class="example-menu-item" cdkMenuItem>Settings</button>
-      <button class="example-menu-item" cdkMenuItem>Sign out</button>
+      <button class="example-menu-item" cdkMenuItem (click)="logOut()">Sign out</button>
     </div>
   </ng-template>

@@ -28,10 +28,13 @@ def getDungeon(height:int,nWidth:int,expantionFactor:float,enemyFactor:float,blo
     return dungeon
 
 def getMetadataDugeon(dungeon):
-    playerPos = np.stack(np.where(dungeon == 5),axis=1).tolist()
+    if type(dungeon) != np.array:
+     dungeon = np.array(jsonToDungeon(dungeon)['dungeon'])
+
+    playerPos = np.stack(np.where(dungeon == 5)).tolist()
     doorPos = np.stack(np.where(dungeon == 4),axis=1).tolist()
     enemyPos = np.stack(np.where(dungeon == 3),axis=1).tolist()
-    return {'dungeon':dungeon.tolist(),'playerPos':playerPos, 'doorPos':doorPos, 'enemyPos':enemyPos}
+    return json.dumps({'playerPos':playerPos},sort_keys=True),json.dumps({'doorPos':doorPos},sort_keys=True),json.dumps({'enemyPos':enemyPos},sort_keys=True)
 
 def solDungeon(dungeon):
     if type(dungeon) != np.array:
