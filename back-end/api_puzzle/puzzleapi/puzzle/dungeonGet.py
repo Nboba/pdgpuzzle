@@ -34,7 +34,7 @@ def getMetadataDugeon(dungeon):
     playerPos = np.stack(np.where(dungeon == 5)).tolist()
     doorPos = np.stack(np.where(dungeon == 4),axis=1).tolist()
     enemyPos = np.stack(np.where(dungeon == 3),axis=1).tolist()
-    return json.dumps({'playerPos':playerPos},sort_keys=True),json.dumps({'doorPos':doorPos},sort_keys=True),json.dumps({'enemyPos':enemyPos},sort_keys=True)
+    return playerPos,doorPos,enemyPos
 
 def solDungeon(dungeon):
     if type(dungeon) != np.array:
@@ -58,4 +58,4 @@ def sorterdungeon(solutions):
             best.append(sol.tolist())
         nsol=len(solutions)
         nMoves=len(best)
-        return  json.dumps({'solution':best},sort_keys=True),nsol,nMoves
+        return  best,nsol,nMoves

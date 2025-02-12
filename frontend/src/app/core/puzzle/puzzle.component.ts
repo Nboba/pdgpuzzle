@@ -1,14 +1,18 @@
-import { Component,inject } from '@angular/core';
+import { Component,inject ,input} from '@angular/core';
+import { OnInit } from '@angular/core';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 import { ApiDjangoService } from '../../userSesion/services/api-django.service';
 import { PuzzleMechanicsService } from '../services/puzzle.service';
-import { SignalType } from '../model/models';
+import { cellColors } from '../model/models';
 import { RowComponent } from './row/row.component';
 
 @Component({
-  selector: 'app-puzzle',
+  selector: 'puzzle',
   imports: [
-    RowComponent
+    RowComponent,
+    MatGridListModule,
+
 
   ],host: {
     '(keydown)': 'botonAbajo($event)',
@@ -16,26 +20,27 @@ import { RowComponent } from './row/row.component';
   templateUrl: './puzzle.component.html',
   styleUrl: './puzzle.component.css'
 })
-export class PuzzleComponent {
+export class PuzzleComponent implements OnInit{
   protected puzzleData= inject(PuzzleMechanicsService);
-  protected puzzleMatriz:number[][]=[];
-  protected playeri_j:number[]=[];
-  protected initialPlayeri_j:number[]=[];
-  protected doorpoosition:number[]=[];
-  protected enemyPosition:number[][]=[];
-  protected puzzleId:number=-1;
-  constructor( private apiService: ApiDjangoService) { }
+  public puzzleMatriz=input.required<number[][]>();
+  public playeri_j=input<number[]>([]);
+  public initialPlayeri_j=input<number[]>([]);
+  public doorPosition=input<number[]>([]);
+  public enemyPosition=input<number[][]>([]);
+  public puzzleId=input.required<number>();
+  protected modificableMatriz:number[][]=[];
+  protected modificablePlayeri_j:number[]=[];
+  public isPuzzleActiva=input<boolean>(false);
 
-  async getPuzzleData(){
-     await this.apiService.getPuzzles().subscribe((data) => {
-      let dataParse = JSON.parse(JSON.stringify(data));
-      console.log(dataParse);
-      this.puzzleMatriz = dataParse[0].dungeon;
-      this.playeri_j = [dataParse[0].playerPos[0][0],dataParse[0].playerPos[0][1]];
-      this.initialPlayeri_j = [dataParse[0].playerPos[0][0],dataParse[0].playerPos[0][1]];
-      this.doorpoosition = dataParse[0].doorPos;
-      this.enemyPosition = dataParse[0].enemyPos;
-     }); 
+  ngOnInit(){
+    this.modificableMatriz=this.puzzleMatriz();
+    if(this.playeri_j()){
+      this.modificablePlayeri_j=this.initialPlayeri_j();
+    }
+    else{
+        this.modificablePlayeri_j=[];
+      }
+
   }
 
   getRow(aux:[]){
@@ -43,19 +48,25 @@ export class PuzzleComponent {
   }
 
   botonAbajo(event: KeyboardEvent){
+    if(this.isPuzzleActiva()){
       let buttonDown=this.puzzleData.buttonDown(event,
-                                 this.puzzleMatriz,
-                                 this.playeri_j,
-                                 this.enemyPosition);
-      this.puzzleMatriz=buttonDown[0];
-      this.playeri_j=buttonDown[1];
+                                 this.puzzleMatriz(),
+                                 this.playeri_j(),
+                                 this.enemyPosition());
+      this.modificableMatriz=buttonDown[0];
+      this.modificablePlayeri_j=buttonDown[1];
+    }
   }
   reset(){
-    this.puzzleMatriz = this.puzzleData.resetPuzzle(this.puzzleMatriz,
-                                                    this.initialPlayeri_j,
-                                                    this.playeri_j,
-                                                    this.enemyPosition);
-    this.playeri_j = this.initialPlayeri_j;
+    this.modificableMatriz = this.puzzleData.resetPuzzle(this.puzzleMatriz(),
+                                                    this.initialPlayeri_j(),
+                                                    this.playeri_j(),
+                                                    this.enemyPosition());
+    this.modificablePlayeri_j = this.initialPlayeri_j();
+  }
+  getColorRow(cell:number){
+    
+    return cellColors[cell];
   }
 
 }

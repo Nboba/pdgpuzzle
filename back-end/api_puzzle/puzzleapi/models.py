@@ -8,7 +8,7 @@ from .puzzle.dungeonGet import getMetadataDugeon
 from .puzzle.generalData import generaldata
 from .puzzle.generalData import textToFloatInt
 from . import validators
-import json as JSON
+import json 
 
 
 generaldata={'height':7,'nWidth':7,'expantionFactor':0.1, 'enemyFactor':0.083, 
@@ -78,10 +78,14 @@ class DungeonData(models.Model):
         self.player_pos,self.door_pos,self.enemy_pos =getMetadataDugeon(self.dungeon)
 
     def prepareData(self):
-        return {'dungeon':self.dungeon,
+        return {'id':self.id,
+                'dungeon':json.loads(self.dungeon)['dungeon'],
                 'n_sol':self.n_sol,
                 'min_sol':self.min_sol,
-                'solution':self.solution,
+                'player_pos':json.loads(self.player_pos)['playerPos'],
+                'door_pos':json.loads(self.door_pos)['doorPos'],
+                'enemy_pos':json.loads(self.enemy_pos)['enemyPos'],
+                'solution':json.loads(self.solution)['solution'],
                 'solution_player':self.solution_player,
                 'record_time':self.record_time,
                 'record_moves':self.record_moves}

@@ -45,3 +45,5 @@ export interface PetitionPuzzleApi{
     maxMoves:number,
     mutationFactor:number
 }
+
+export let cellColors=['white','grey','#994318','red','green','blue'];

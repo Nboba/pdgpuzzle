@@ -1,1 +1,16 @@
-<p>puzzle-normals works!</p>
+@defer(when this.puzzleData !== undefined) {
+<mat-grid-list cols="4">
+
+    @for ( puzzles of this.puzzleData; track $index) {
+        <mat-grid-tile>
+            <puzzle 
+            [puzzleMatriz]= puzzles.dungeon
+            [puzzleId]=puzzles.id
+            />
+        </mat-grid-tile>
+
+    }@empty{
+        <p>No hay puzzles</p>
+    }
+</mat-grid-list>
+}
