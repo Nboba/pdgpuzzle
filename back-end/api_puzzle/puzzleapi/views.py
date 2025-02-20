@@ -109,3 +109,19 @@ def get_status_puzzle(request,username):
                                      'status':200},safe=False)
     except Exception as e:
         return JsonResponse({'response':str(e)})
+    
+@ensure_csrf_cookie
+@login_required
+@require_POST
+def save_solution_puzzle(request,username):
+    try:
+        user = User.objects.get(username=username)
+        if user is not None:
+            params = request.body
+            data = json.loads(params)
+            dungeon = DungeonData.objects.get(id=data['id'])
+            dungeon.solution = data['solution']
+            dungeon.save()
+            return JsonResponse({'response':'Solucion guardada','status':200})
+    except Exception as e:
+        return JsonResponse({'response':str(e)})
