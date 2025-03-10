@@ -14,14 +14,15 @@ namespace WebApplication1.Models
         public SolutionPlayer PlayerSolution { get; set; } = new SolutionPlayer();
 
 
-    public void FindPlayerPosition()
+    public Puzzle FindPlayerPosition()
         {
             var myArray = this.Matrix.Cast<int>().ToList();
             int index = myArray.FindIndex(x => x == 5);
             this.PlayerPostions = new int[] { index / this.Matrix.GetLength(1), index % this.Matrix.GetLength(1) };
+            return this;
         }
 
-        public void FindEnemyPosition()
+        public Puzzle FindEnemyPosition()
         {
 
             for (int i = 0; i < this.Matrix.GetLength(0); i++)
@@ -35,28 +36,24 @@ namespace WebApplication1.Models
                 }
                     
              }
-
+            return this;
         }
 
-        public void FindDoor()
+        public Puzzle FindDoor()
         {
             var myArray = this.Matrix.Cast<int>().ToList();
             int index = myArray.FindIndex(x => x == 4);
             this.DoorPosition = new int[] { index / this.Matrix.GetLength(1), index % this.Matrix.GetLength(1) };
+            return this;
         }
 
-        public void FindSolution()
+        public Puzzle FindSolution()
         {
             List<Queue<DungeonWMoves>> solution = SSolver.Solver.solveGameWithMoves(this.Matrix);
             this.Solution = SSolver.Solver.getBestSolution(solution);
+
+            return this;
         }
 
-        public void FindAllMetaData()
-        {
-            FindPlayerPosition();
-            FindEnemyPosition();
-            FindDoor();
-            FindSolution();
-        }
     }
 }

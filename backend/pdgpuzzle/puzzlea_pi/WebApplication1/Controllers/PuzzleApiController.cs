@@ -28,7 +28,10 @@ public class PuzzleApiController : ControllerBase
         puzzle.Matrix = dungeonData.Item1;
         puzzle.NSolutions = dungeonData.Item2;
         puzzle.NMoves = dungeonData.Item3;
-        puzzle.FindAllMetaData();
+        puzzle.FindPlayerPosition().
+               FindEnemyPosition().
+               FindDoor().
+               FindSolution();
         return JsonConvert.SerializeObject(new { puzzle  });
     }
 
@@ -54,7 +57,10 @@ public class PuzzleApiController : ControllerBase
             puzzle.Matrix = dungeonData.Item1;
             puzzle.NSolutions = dungeonData.Item2;
             puzzle.NMoves = dungeonData.Item3;
-            puzzle.FindAllMetaData();
+            puzzle.FindPlayerPosition().
+                   FindEnemyPosition().
+                   FindDoor().
+                   FindSolution();
             response.Add( puzzle );
 
         }
