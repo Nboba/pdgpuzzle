@@ -16,3 +16,8 @@ export interface SolutionPlayer{
   SolutionDate:string;
   solutionLastTry:string
 }
+
+export interface keySignal{
+  key:string;
+  move:number[];
+}

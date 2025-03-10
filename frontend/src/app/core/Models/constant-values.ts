@@ -1,4 +1,5 @@
 import { PuzzleFormConfigurationsModel } from './request-puzzle-model';
+import { keySignal } from './interfaces-puzzle';
 
 export const puzzleFormConfigurations:PuzzleFormConfigurationsModel[]=[
   {'label':"Altura",'max':10,'min':6,'step':1,'default':6,'nameInput':"height"}, //height
@@ -16,3 +17,8 @@ export const cellColors=['white','grey','#994318','red','green','blue'];
 export enum filterPuzzleOptions{moves="moves",solutions="solutions",haveSolution="haveSolution",noSolution="noSolution",time="time"};
 
 export const filterPuzzleOptionsArray=["Moves","Solutions","haveSolution","noSolution","time"];
+
+export const SignalType:keySignal[]=[{'key':'ArrowUp','move':[-1,0]},
+                                     {'key':'ArrowDown','move':[1,0]},
+                                     {'key':'ArrowRight','move':[0,1]},
+                                     {'key':'ArrowLeft','move':[0,-1]}];

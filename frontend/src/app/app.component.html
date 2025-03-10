@@ -1,14 +1,9 @@
   <mat-toolbar class="toolbar">
     <mat-toolbar-row class="toolbar-row">
       <h1 class="title">KronoRogue LT</h1>
-      <button (click)="changeView()" class="button-toolbar" [disabled]="this.PuzzleView()"[style]="this.PuzzleView()?this.activeButton:''">Mis puzzles</button>
-      <button (click)="changeView()" class="button-toolbar" [disabled]="!this.PuzzleView()" [style]="!this.PuzzleView()?this.activeButton:''">Crear Puzzle</button>
+      <button routerLink="/Puzzles" routerLinkActive="activeButton" ariaCurrentWhenActive="page"  class="button-toolbar" >Mis Puzzles</button>
+      <button routerLink="/Create-Puzzles" routerLinkActive="activeButton" ariaCurrentWhenActive="page"  class="button-toolbar" >Crear Puzzle</button>
     </mat-toolbar-row>
   </mat-toolbar>
 
-@if(this.PuzzleView()){
-  <app-puzzle-container></app-puzzle-container>
-}@else {
-  <form-puzzle-petition/>
-}
-
+<router-outlet />

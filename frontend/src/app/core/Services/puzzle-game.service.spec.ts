@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ToolbarManageService } from './toolbar-manage.service';
+import { PuzzleGameService } from './puzzle-game.service';
 
-describe('ToolbarManageService', () => {
-  let service: ToolbarManageService;
+describe('PuzzleGameService', () => {
+  let service: PuzzleGameService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ToolbarManageService);
+    service = TestBed.inject(PuzzleGameService);
   });
 
   it('should be created', () => {

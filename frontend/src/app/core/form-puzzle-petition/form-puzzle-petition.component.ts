@@ -84,6 +84,7 @@ export class FormPuzzlePetitionComponent {
       });
       this.dialog.afterAllClosed.subscribe(result => {
         this.petitonActive.set(false);
+        this.apiPuzzle.resetResults();
       });
     }
 

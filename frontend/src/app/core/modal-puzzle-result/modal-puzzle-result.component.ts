@@ -1,7 +1,7 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef,MatDialogContent,MatDialogTitle, MatDialogModule } from '@angular/material/dialog';
+import { Component, inject, signal } from '@angular/core';
+import {  MatDialogRef,MatDialogContent,MatDialogTitle, MatDialogModule } from '@angular/material/dialog';
 import { PuzzleViewComponent } from '../puzzle-vista/puzzle-view.component';
-import { RequestPuzzleModel, ResponsePuzzleModel } from '../Models/request-puzzle-model';
+import { ResponsePuzzleModel } from '../Models/request-puzzle-model';
 import { MatButtonModule } from '@angular/material/button';
 import { puzzleSelected } from '../Models/interfaces-puzzle';
 import { PuzzleLocalService } from '../Services/puzzle-local.service';

@@ -60,19 +60,19 @@ export class PuzzleLocalService {
     public filterPuzzles(filter:string):number[]{
       switch(filter){
         case filterPuzzleOptions.solutions:{
-          return this.getIndexOfPuzzle([...this.savedPuzzles].sort((a:ResponsePuzzleModel,b:ResponsePuzzleModel)=>b.NSolutions-a.NSolutions));
+          return this.getIndexOfPuzzle([...this._savedPuzzles()].sort((a:ResponsePuzzleModel,b:ResponsePuzzleModel)=>b.NSolutions-a.NSolutions));
         }
         case filterPuzzleOptions.time:{
-          return this.getIndexOfPuzzle([...this.savedPuzzles].sort((a:ResponsePuzzleModel,b:ResponsePuzzleModel)=>b.PlayerSolution.solutionTime-a.PlayerSolution.solutionTime));
+          return this.getIndexOfPuzzle([...this._savedPuzzles()].sort((a:ResponsePuzzleModel,b:ResponsePuzzleModel)=>b.PlayerSolution.solutionTime-a.PlayerSolution.solutionTime));
         }
         case filterPuzzleOptions.haveSolution:{
-          return this.getIndexOfPuzzle([...this.savedPuzzles].filter((a:ResponsePuzzleModel)=>a.PlayerSolution.SolutionNMoves>0));
+          return this.getIndexOfPuzzle([...this._savedPuzzles()].filter((a:ResponsePuzzleModel)=>a.PlayerSolution.SolutionNMoves>0));
         }
         case filterPuzzleOptions.noSolution:{
-          return this.getIndexOfPuzzle([...this.savedPuzzles].filter((a:ResponsePuzzleModel)=>a.PlayerSolution.SolutionNMoves==0));
+          return this.getIndexOfPuzzle([...this._savedPuzzles()].filter((a:ResponsePuzzleModel)=>a.PlayerSolution.SolutionNMoves==0));
         }
         default:{
-          return this.getIndexOfPuzzle([...this.savedPuzzles].sort((a:ResponsePuzzleModel,b:ResponsePuzzleModel)=>a.NMoves-b.NMoves));
+          return this.getIndexOfPuzzle([...this._savedPuzzles()].sort((a:ResponsePuzzleModel,b:ResponsePuzzleModel)=>a.NMoves-b.NMoves));
         }
       }
     }
