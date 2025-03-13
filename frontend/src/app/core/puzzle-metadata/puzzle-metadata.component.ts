@@ -1,19 +1,24 @@
-import { AfterContentInit, Component, input } from '@angular/core';
+import { AfterContentInit, Component, input, signal } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PuzzleLocalService } from '../Services/puzzle-local.service';
 import { PuzzleApiService } from '../Services/puzzle-api.service';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-puzzle-metadata',
-  imports: [MatExpansionModule],
+  imports: [
+    MatExpansionModule,
+    MatIcon
+  ],
   templateUrl: './puzzle-metadata.component.html',
   styleUrl: './puzzle-metadata.component.scss'
 })
 export class PuzzleMetadataComponent implements AfterContentInit {
   public metadata:[number,number]=[0,0];
   public indexP = input.required<number>();
+  protected deleteActive = signal<boolean>(false);
 
-  constructor(private puzzleService:PuzzleLocalService,private puzzleApiService:PuzzleApiService) {
+  constructor(private puzzleLocalService:PuzzleLocalService,private puzzleApiService:PuzzleApiService) {
   }
 
   ngAfterContentInit(): void {
@@ -21,7 +26,11 @@ export class PuzzleMetadataComponent implements AfterContentInit {
       this.metadata=this.puzzleApiService.getMetaData(this.indexP());
 
     }else{
-      this.metadata=this.puzzleService.getMetaData(this.indexP());
+      this.metadata=this.puzzleLocalService.getMetaData(this.indexP());
     }
+  }
+  deletePuzzle(){
+    this.puzzleLocalService.deletePuzzle(this.indexP());
+    this.deleteActive.set(!this.deleteActive());
   }
 }

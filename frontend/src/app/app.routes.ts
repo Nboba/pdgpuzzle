@@ -5,6 +5,6 @@ import { PuzzleGameComponent } from './core/puzzle-game/puzzle-game.component';
 export const routes: Routes = [
   { path: 'Create-Puzzles',component: FormPuzzlePetitionComponent },
    { path: 'Puzzles', component: PuzzleContainerComponent },
-   { path: ':index', component: PuzzleGameComponent },
-   { path: '',   redirectTo: 'Create-Puzzles', pathMatch: 'full' },
+   { path: 'Puzzles/:index', component: PuzzleGameComponent,pathMatch: 'full' },
+   { path: '**',   redirectTo: 'Create-Puzzles', pathMatch: 'full' },
 ];

@@ -1,21 +1,21 @@
 import { OnInit, Component,inject, signal, OnDestroy } from '@angular/core';
 import {MatGridListModule} from '@angular/material/grid-list';
-
-import { ResponsePuzzleModel } from '../Models/request-puzzle-model';
 import { PuzzleGameService } from '../Services/puzzle-game.service';
 import { PuzzleLocalService } from '../Services/puzzle-local.service';
 import { cellColors } from '../Models/constant-values';
 import { ActivatedRoute } from '@angular/router';
-
+import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-puzzle-game',
   imports: [
-    MatGridListModule
+    MatGridListModule,
+    MatIcon
 
   ],
   templateUrl: './puzzle-game.component.html',
   styleUrl: './puzzle-game.component.scss'
 })
+
 export class PuzzleGameComponent implements OnInit, OnDestroy {
 
   private readonly route = inject(ActivatedRoute);
@@ -23,7 +23,13 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
   protected Matrix=signal<number[][]>([]);
   protected Playeri_j=signal<number[]>([]);
   protected EnemyPositions:number[][]=[];
+  protected NroMovimientos : number= 0;
+  protected NroSoluciones:number=0;
 
+  protected isGameActive=signal<boolean>(false);
+  protected time=signal<number>(0);
+  protected moves=signal<number>(0);
+ protected interval:any;
   constructor(private gameService:PuzzleGameService,private puzzleLocalService:PuzzleLocalService){}
 
   ngOnInit(): void {
@@ -32,6 +38,8 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
     this.Matrix.set([...puzzleData.Matrix]);
     this.Playeri_j.set([...puzzleData.PlayerPostions]);
     this.EnemyPositions=[...puzzleData.EnemyPositions];
+    this.NroMovimientos=puzzleData.NMoves;
+    this.NroSoluciones=puzzleData.NSolutions
   }
 
   getColorRow(cell:number){
@@ -53,11 +61,30 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
       else if(moveType==='Enemy'){
         this.Matrix()[move[0]][move[1]]=0;
       }
-
+        this.moves.set(this.moves()+1);
   }
 
   ngOnDestroy(): void {
     this.Matrix.set(this.gameService.resetPuzzle(this.Matrix(),this.puzzleLocalService.getPuzzle(this.index).PlayerPostions,this.Playeri_j(),this.EnemyPositions));
+  }
+
+  startGame(){
+    this.isGameActive.set(!this.isGameActive());
+    if(this.isGameActive()){
+      this.interval = setInterval(() => {
+        this.time.set(this.time()+1);
+      },1000)
+    }
+    else{
+      clearInterval(this.interval);
+    }
+  }
+
+  resetGame(){
+    this.Matrix.set(this.gameService.resetPuzzle(this.Matrix(),this.puzzleLocalService.getPuzzle(this.index).PlayerPostions,this.Playeri_j(),this.EnemyPositions));
+    this.moves.set(0);
+    this.time.set(0);
+    this.Playeri_j.set(this.puzzleLocalService.getPuzzle(this.index).PlayerPostions);
   }
 
 }

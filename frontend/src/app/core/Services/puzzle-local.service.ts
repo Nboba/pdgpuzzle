@@ -91,4 +91,13 @@ export class PuzzleLocalService {
   public getMetaData(index:number):[number,number]{
     return [this._savedPuzzles()[index].NMoves,this._savedPuzzles()[index].NSolutions];
   }
+
+  public deletePuzzle(index:number){
+    this._savedPuzzles.set([...this._savedPuzzles().slice(0,index),...this._savedPuzzles().slice(index+1)]);
+    localStorage.setItem('puzzlesSelected',JSON.stringify(this._savedPuzzles()));
+    let filter = localStorage.getItem('filterPuzzleOptions');
+    if(filter!==null && filter.length>0){
+      this.FilterPuzzleOptions=filter;
+    }
+  }
 }
