@@ -1,43 +1,59 @@
 
-    <div tabindex="0" class="div-puzzle" (keydown)="botonAbajo($event)" >
-      <mat-grid-list cols="{{this.Matrix()[1].length}}" >
-        @for( row of this.Matrix() ; track $index; let i = $index){
-                @for( cell of row ; track $index; let j = $index){
-                    <mat-grid-tile
-                        [colspan]="1"
-                        [rowspan]="1"
-                        [style.background-color]="getColorRow(cell)">
-                    </mat-grid-tile>
-                }
-        }
-      </mat-grid-list>
-    </div>
+    <div class="game-container">
+      <div tabindex="0" class="div-puzzle" (keydown)="botonAbajo($event)" >
+        <mat-grid-list cols="{{this.Matrix()[1].length}}" >
+          @for( row of this.Matrix() ; track $index; let i = $index){
+                  @for( cell of row ; track $index; let j = $index){
+                      <mat-grid-tile
+                          [colspan]="1"
+                          [rowspan]="1"
+                          [style.background-color]="getColorRow(cell)">
+                      </mat-grid-tile>
+                  }
+          }
+        </mat-grid-list>
+      </div>
 
+      <div class="div-info-game">
+        <div class="div-time">
+          <div class="time-button">
+            @if(!this.isGameActive()){
+              <button mat-icon-button (click)="startGame()" class="flex-button">
+                <mat-icon>play_arrow</mat-icon>
+              </button>
+            }@else{
+              <button mat-icon-button (click)="startGame()" class="flex-button">
+                <mat-icon>stop</mat-icon>
+              </button>
+            }
+          </div>
+          <div class="reset-button">
+            <button mat-icon-button (click)="resetGame()" class="flex-button">
+              <mat-icon>replay</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="div-info">
+          <div class="div-dinamic-info">
+            <div>
+              <h2>Informacion del juego</h2>
+            </div>
+            <div class="info-infor">
+              <mat-icon class="mat-info">directions_run</mat-icon>
+              <p class="p-info">Movimientos : {{this.moves()}}</p>
+            </div>
+            <div class="info-infor">
+              <mat-icon class="mat-info">timer</mat-icon>
+              <p class="p-info">Tiempo : {{this.time()}}</p>
+            </div>
+          </div>
+          <div class="div-static-info">
+            <h3>Informacion del Puzzle</h3>
+            <p>Movimientos minimos: {{this.NroMovimientos}}</p>
+            <p>Nro Soluciones : {{this.NroSoluciones}}</p>
+          </div>
 
-    <div class="div-info-game">
-      <div class="time-button">
-        @if(!this.isGameActive()){
-          <button mat-icon-button (click)="startGame()">
-            <mat-icon>play_arrow</mat-icon>
-          </button>
-        }@else{
-          <button mat-icon-button (click)="startGame()">
-            <mat-icon>stop</mat-icon>
-          </button>
-        }
-
-        <div class="restar-button">
-          <button mat-icon-button (click)="resetGame()">
-            <mat-icon>replay</mat-icon>
-          </button>
         </div>
       </div>
-      <div class="div-info">
-        <h2>Informacion del juego</h2>
-        <p><mat-icon>directions_run</mat-icon>Numero de movimientos:{{this.moves()}}</p>
-        <p><mat-icon>timer</mat-icon>Tiempo:{{this.time()}}</p>
-        <h3>Informacion del Puzzle</h3>
-        <p>Numero de movimientos:{{this.NroMovimientos}}</p>
-        <p>Nro Soluciones:{{this.NroSoluciones}}</p>
-      </div>
     </div>
+

@@ -56,7 +56,7 @@ public class PuzzleApiController : ControllerBase
             Puzzle puzzle = new();
             puzzle.Matrix = dungeonData.Item1;
             puzzle.NSolutions = dungeonData.Item2;
-            puzzle.NMoves = dungeonData.Item3;
+            puzzle.NMoves = dungeonData.Item3 - 1;
             puzzle.FindPlayerPosition().
                    FindEnemyPosition().
                    FindDoor().

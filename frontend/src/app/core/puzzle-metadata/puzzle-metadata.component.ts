@@ -17,6 +17,7 @@ export class PuzzleMetadataComponent implements AfterContentInit {
   public metadata:[number,number]=[0,0];
   public indexP = input.required<number>();
   protected deleteActive = signal<boolean>(false);
+  protected isPetitionActive = signal<boolean>(false);
 
   constructor(private puzzleLocalService:PuzzleLocalService,private puzzleApiService:PuzzleApiService) {
   }
@@ -24,6 +25,7 @@ export class PuzzleMetadataComponent implements AfterContentInit {
   ngAfterContentInit(): void {
     if(this.puzzleApiService.puzzleResult.length>0){
       this.metadata=this.puzzleApiService.getMetaData(this.indexP());
+      this.isPetitionActive.set(true);
 
     }else{
       this.metadata=this.puzzleLocalService.getMetaData(this.indexP());

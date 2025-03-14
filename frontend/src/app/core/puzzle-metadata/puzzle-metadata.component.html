@@ -11,21 +11,23 @@
       <p>Nro de movimientos: {{metadata[0]}}</p>
       <p>Nro de Soluciones: {{metadata[1]}}</p>
     </div>
-    <div class="button-div">
-      @if(this.deleteActive()){
-        <div class="button-container">
-          <button mat-icon-button (click)="deletePuzzle()" class="delete-acept-button">
-            <mat-icon>check</mat-icon>
+    @if(this.isPetitionActive() == false){
+      <div class="button-div">
+        @if(this.deleteActive()){
+          <div class="button-container">
+            <button mat-icon-button (click)="deletePuzzle()" class="delete-acept-button">
+              <mat-icon>check</mat-icon>
+            </button>
+            <button mat-icon-button (click)="this.deleteActive.set(!this.deleteActive())" class="delete-cancel-button">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </div>
+        }@else {
+          <button mat-icon-button (click)="this.deleteActive.set(!this.deleteActive())" class="delete-button">
+            <mat-icon>delete</mat-icon>
           </button>
-          <button mat-icon-button (click)="this.deleteActive.set(!this.deleteActive())" class="delete-cancel-button">
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </div>
-      }@else {
-        <button mat-icon-button (click)="this.deleteActive.set(!this.deleteActive())" class="delete-button">
-          <mat-icon>delete</mat-icon>
-        </button>
-      }
-    </div>
+        }
+      </div>
+    }
   </mat-expansion-panel>
 </mat-accordion>

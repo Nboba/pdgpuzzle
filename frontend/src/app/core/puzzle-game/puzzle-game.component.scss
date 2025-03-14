@@ -1,8 +1,62 @@
+.game-container{
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+}
+
+
 .div-puzzle{
   background-color: black;
+  grid-column-end: 3;
+  max-width: 568px;
+}
+
+.div-info-game{
+display: grid;
+grid-template-rows: auto;
+background-color: white;
+padding:1rem;
+}
+
+.div-time{
+    display: inline-flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.time-button{
+  flex-grow: 1;
+  display: flex;
+}
+.reset-button{
+  flex-grow: 1;
+  display: flex;
+}
+.div-info{
+
+}
+.info-infor{
   display: grid;
-  width: 33dvw;
-  margin: 0 auto;
-  min-width: 21dvw;
-  padding: 1rem;
+  grid-template-columns: 1fr 6fr;
+}
+ .mat-info{
+  align-self: center;
+ }
+.div-dinamic-info{
+  h2{
+    text-align: center;
+  }
+}
+
+.div-static-info{
+ h3{
+   text-align: center;
+ }
+}
+
+
+
+.flex-button{
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
 }
