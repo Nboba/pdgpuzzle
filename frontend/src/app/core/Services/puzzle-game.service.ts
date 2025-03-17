@@ -57,7 +57,7 @@ export class PuzzleGameService {
     }
     return [puzzleDataRef,playeri_j,"NotValid"];
   }
-  public win(puzzleDataRef:number[][],playeri_j:number[]):void{
+  public win(puzzleDataRef:number[][],playeri_j:number[]):boolean{
       let win=SignalType.some((move:keySignal)=>{
         let tile_entity=this.lookAhead(puzzleDataRef,playeri_j,move.move);
         let entity =tile_entity[1];
@@ -68,11 +68,9 @@ export class PuzzleGameService {
       });
 
       if(win){
-        setTimeout(()=>{
-          alert("Ganaste");
-        },1000);
+        return true
       }
-
+      return false;
   }
 
   public buttonDown(event: KeyboardEvent,puzzleDataRef:number[][],playeri_j:number[],enemyPosition:number[][]):[number[],string]{
@@ -85,7 +83,10 @@ export class PuzzleGameService {
       moveType=puzzleStep[2];
       let leftEnemys=this.checkEnemys(puzzleDataRef,enemyPosition);
       if(!leftEnemys){
-        this.win(puzzleDataRef,playeri_j);
+       let endGame:boolean= this.win(puzzleDataRef,playeri_j);
+        if(endGame){
+          return [playeri_j,'Win'];
+        }
       }
     }
     return [playeri_j,moveType];

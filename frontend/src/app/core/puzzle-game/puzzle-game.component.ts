@@ -3,7 +3,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { PuzzleGameService } from '../Services/puzzle-game.service';
 import { PuzzleLocalService } from '../Services/puzzle-local.service';
 import { cellColors } from '../Models/constant-values';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-puzzle-game',
@@ -30,7 +30,9 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
   protected time=signal<number>(0);
   protected moves=signal<number>(0);
  protected interval:any;
-  constructor(private gameService:PuzzleGameService,private puzzleLocalService:PuzzleLocalService){}
+  constructor(private gameService:PuzzleGameService,private puzzleLocalService:PuzzleLocalService,
+              private router:Router
+  ){}
 
   ngOnInit(): void {
     this.index= Number(this.route.snapshot.paramMap.get('index'));
@@ -53,7 +55,11 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
                                  this.EnemyPositions);
       let move= buttonDown[0];
       let moveType=buttonDown[1];
-      if(moveType ==='Move'){
+      if(moveType ==='Win'){
+        this.isGameActive.set(false);
+        clearInterval(this.interval);
+      }
+      else if(moveType ==='Move'){
         this.Matrix()[this.Playeri_j()[0]][this.Playeri_j()[1]]=0;
         this.Matrix()[move[0]][move[1]]=5;
         this.Playeri_j.set(move);
@@ -86,7 +92,11 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
     this.time.set(0);
     this.Playeri_j.set(this.puzzleLocalService.getPuzzle(this.index).PlayerPostions);
   }
-
+  back(){
+    this.resetGame();
+    this.isGameActive.set(false);
+    this.router.navigate(['/Puzzles']);
+  }
 }
 
 
