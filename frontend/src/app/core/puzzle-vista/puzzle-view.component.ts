@@ -72,7 +72,7 @@ ngAfterContentInit(): void {
   clickManager(){
     this.activatedRoute.url.subscribe( (url)=>{
       if(url.toString()==='Puzzles'){
-        this.router.navigate(['Puzzles/index', { index : this.index() }]);
+        this.router.navigate(['Puzzles',this.index() ]);
       }
       else if(this.puzzleApiService.puzzleResult.length>0){
       this.updateCheck()
