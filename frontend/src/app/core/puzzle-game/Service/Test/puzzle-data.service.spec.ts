@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PuzzleGameService } from './puzzle-game.service';
+import { PuzzleDataService } from '../puzzle-data.service';
 
-describe('PuzzleGameService', () => {
-  let service: PuzzleGameService;
+describe('PuzzleDataService', () => {
+  let service: PuzzleDataService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(PuzzleGameService);
+    service = TestBed.inject(PuzzleDataService);
   });
 
   it('should be created', () => {

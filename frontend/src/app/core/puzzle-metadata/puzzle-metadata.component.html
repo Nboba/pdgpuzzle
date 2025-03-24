@@ -3,7 +3,7 @@
     <mat-expansion-panel-header>
       <mat-panel-title>
         <div class="text-div">
-          Info Puzzle {{indexP() + 1}}
+          Info Puzzle {{ this.indexP().in + 1}}
         </div>
       </mat-panel-title>
     </mat-expansion-panel-header>
@@ -11,7 +11,7 @@
       <p>Nro de movimientos: {{metadata[0]}}</p>
       <p>Nro de Soluciones: {{metadata[1]}}</p>
     </div>
-    @if(this.isPetitionActive() == false){
+    @if(this.isPetitionActive() === false){
       <div class="button-div">
         @if(this.deleteActive()){
           <div class="button-container">

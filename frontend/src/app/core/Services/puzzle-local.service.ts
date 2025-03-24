@@ -5,16 +5,19 @@ import { filterPuzzleOptions } from '../Models/constant-values';
   providedIn: 'root'
 })
 export class PuzzleLocalService {
-  private _savedPuzzles=signal<ResponsePuzzleModel[]>([]);
+  private _savedPuzzles:Map<string,ResponsePuzzleModel>=new Map<string,ResponsePuzzleModel>();
   private _filterPuzzleOptions=signal('start');
-  private _sortedPuzzles:Signal<number[]>=computed(()=> [...this.filterPuzzles(this.FilterPuzzleOptions)]);
+  private _sortedPuzzles:Signal<{in:number,id:string}[]>=computed(()=> [...this.filterPuzzles(this.FilterPuzzleOptions)]);
 
 
   constructor() {
-    let filter=localStorage.getItem('filterPuzzleOptions');
-    let savePuzzles = localStorage.getItem('puzzlesSelected');
+    const filter=localStorage.getItem('filterPuzzleOptions');
+    const savePuzzles = localStorage.getItem('puzzlesSelected');
     if(savePuzzles!==null){
-      this._savedPuzzles.set(JSON.parse(localStorage.getItem('puzzlesSelected')??''))
+      const  puzzles= JSON.parse(localStorage.getItem('puzzlesSelected')??'')
+      puzzles.forEach((puzzle:ResponsePuzzleModel)=>{
+        this._savedPuzzles.set(puzzle.id,puzzle);
+      })
     }
     if(filter!==null && filter.length>0){
       this.FilterPuzzleOptions=filter;
@@ -32,13 +35,15 @@ export class PuzzleLocalService {
 
   }
 
-    public get savedPuzzles():ResponsePuzzleModel[]{
-      return this._savedPuzzles();
+    public get savedPuzzles():Map<string,ResponsePuzzleModel>{
+      return this._savedPuzzles;
     }
     public set savedPuzzles(puzzle:ResponsePuzzleModel[]){
-      this._savedPuzzles.set([...this._savedPuzzles(),...puzzle]);
-      localStorage.setItem('puzzlesSelected',JSON.stringify(this._savedPuzzles()));
-      let filter=localStorage.getItem('filterPuzzleOptions');
+      puzzle.forEach((puzzle:ResponsePuzzleModel)=>{
+        this._savedPuzzles.set(puzzle.id,puzzle);
+      })
+      localStorage.setItem('puzzlesSelected',JSON.stringify(this._savedPuzzles));
+      const filter=localStorage.getItem('filterPuzzleOptions');
       if(filter!==null && filter.length>0){
         this.FilterPuzzleOptions=filter
       }
@@ -52,50 +57,54 @@ export class PuzzleLocalService {
     public get FilterPuzzleOptions():string{
       return this._filterPuzzleOptions();
     }
-    public get SortedPuzzles():number[]{
-      return this._sortedPuzzles();
+    public get SortedPuzzles():{in:number,id:string}[]{
+      return [...this._sortedPuzzles()];
     }
 
 
-    public filterPuzzles(filter:string):number[]{
+    public filterPuzzles(filter:string):{in:number,id:string}[]{
+      const puzzleArray =Array.from(this.savedPuzzles.values())
       switch(filter){
         case filterPuzzleOptions.solutions:{
-          return this.getIndexOfPuzzle([...this._savedPuzzles()].sort((a:ResponsePuzzleModel,b:ResponsePuzzleModel)=>b.NSolutions-a.NSolutions));
+          return this.getIndexOfPuzzle(puzzleArray.sort((a:ResponsePuzzleModel,b:ResponsePuzzleModel)=>b.NSolutions-a.NSolutions));
         }
         case filterPuzzleOptions.time:{
-          return this.getIndexOfPuzzle([...this._savedPuzzles()].sort((a:ResponsePuzzleModel,b:ResponsePuzzleModel)=>b.PlayerSolution.solutionTime-a.PlayerSolution.solutionTime));
+          return this.getIndexOfPuzzle(puzzleArray.sort((a:ResponsePuzzleModel,b:ResponsePuzzleModel)=>b.PlayerSolution.solutionTime-a.PlayerSolution.solutionTime));
         }
         case filterPuzzleOptions.haveSolution:{
-          return this.getIndexOfPuzzle([...this._savedPuzzles()].filter((a:ResponsePuzzleModel)=>a.PlayerSolution.SolutionNMoves>0));
+          return this.getIndexOfPuzzle(puzzleArray.filter((a:ResponsePuzzleModel)=>a.PlayerSolution.SolutionNMoves>0));
         }
         case filterPuzzleOptions.noSolution:{
-          return this.getIndexOfPuzzle([...this._savedPuzzles()].filter((a:ResponsePuzzleModel)=>a.PlayerSolution.SolutionNMoves==0));
+          return this.getIndexOfPuzzle(puzzleArray.filter((a:ResponsePuzzleModel)=>a.PlayerSolution.SolutionNMoves==0));
         }
         default:{
-          return this.getIndexOfPuzzle([...this._savedPuzzles()].sort((a:ResponsePuzzleModel,b:ResponsePuzzleModel)=>a.NMoves-b.NMoves));
+          return this.getIndexOfPuzzle(puzzleArray.sort((a:ResponsePuzzleModel,b:ResponsePuzzleModel)=>a.NMoves-b.NMoves));
         }
       }
     }
 
-    public getIndexOfPuzzle(sortedPuzzles:ResponsePuzzleModel[]):number[]{
-      let index:number[]=[];
-      sortedPuzzles.forEach((puzzle:ResponsePuzzleModel)=>{
-        index.push(this.savedPuzzles.findIndex((puzz:ResponsePuzzleModel)=>puzzle.id.localeCompare(puzz.id)===0));
-    })
+    public getIndexOfPuzzle(sortedPuzzles:ResponsePuzzleModel[]):{in:number,id:string}[]{
+      const index:{in:number,id:string}[]=[];
+      let i=0;
+      sortedPuzzles.forEach((puzzle:ResponsePuzzleModel)=>{ index.push({in:i,id:puzzle.id}); i++; })
     return index;
   }
 
-  public getPuzzle(index:number):ResponsePuzzleModel{
-    return this.savedPuzzles[index];
+  public getPuzzle(id:string):ResponsePuzzleModel{
+    const puzzle = this.savedPuzzles.get(id);
+    if(puzzle===undefined){
+      return {} as ResponsePuzzleModel;
+    }
+    return {...puzzle};
   }
-  public getMetaData(index:number):[number,number]{
-    return [this._savedPuzzles()[index].NMoves,this._savedPuzzles()[index].NSolutions];
+  public getMetaData(id:string):[number,number]{
+    return [this.getPuzzle(id).NMoves,this.getPuzzle(id).NSolutions];
   }
 
-  public deletePuzzle(index:number){
-    this._savedPuzzles.set([...this._savedPuzzles().slice(0,index),...this._savedPuzzles().slice(index+1)]);
-    localStorage.setItem('puzzlesSelected',JSON.stringify(this._savedPuzzles()));
-    let filter = localStorage.getItem('filterPuzzleOptions');
+  public deletePuzzle(id:string){
+    this._savedPuzzles.delete(id);
+    localStorage.setItem('puzzlesSelected',JSON.stringify(this._savedPuzzles));
+    const filter = localStorage.getItem('filterPuzzleOptions');
     if(filter!==null && filter.length>0){
       this.FilterPuzzleOptions=filter;
     }

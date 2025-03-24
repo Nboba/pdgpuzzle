@@ -11,7 +11,7 @@ import { PuzzleApiService } from '../Services/puzzle-api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PuzzleGameComponent } from '../puzzle-game/puzzle-game.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
+import { PuzzleDataService } from '../puzzle-game/Service/puzzle-data.service';
 
 
 
@@ -29,23 +29,26 @@ import { Observable, switchMap } from 'rxjs';
   styleUrl: './puzzle-view..component.scss'
 })
 export class PuzzleViewComponent implements AfterContentInit {
-  public puzzleData:ResponsePuzzleModel={} as ResponsePuzzleModel;
-  public index= input.required<number>();
-  protected checks=signal<boolean>(false);
-  protected backgroundColors:string='';
+  public puzzleData : ResponsePuzzleModel={} as ResponsePuzzleModel;
+  public index = input.required<{in:number,id:string}>();
+  protected checks = signal<boolean>(false);
+  protected backgroundColors = '';
   protected readonly dialog = inject(MatDialog);
+  protected readonly activatedRoute = inject(ActivatedRoute);
+  protected readonly router = inject(Router);
+  protected puzzleDataGame = inject(PuzzleDataService);
 
 
-
-constructor(private puzzleLocalService:PuzzleLocalService,private puzzleApiService:PuzzleApiService,private activatedRoute: ActivatedRoute,private router: Router) {
+constructor(private puzzleLocalService:PuzzleLocalService,private puzzleApiService:PuzzleApiService) {
 }
 
 ngAfterContentInit(): void {
+  console.log(this.index());
   if(this.puzzleApiService.puzzleResult.length>0){
-    this.puzzleData=this.puzzleApiService.puzzleResult[this.index()];
+    this.puzzleData=this.puzzleApiService.puzzleResult[this.index().in];
 
   }else{
-    this.puzzleData=this.puzzleLocalService.getPuzzle(this.index());
+    this.puzzleData=this.puzzleLocalService.getPuzzle(this.index().id);
   }
 }
 
@@ -55,7 +58,7 @@ ngAfterContentInit(): void {
   updateCheck(){
     this.checks.set(!this.checks());
     this.backgroundColors=this.checks()?'border: 13px #ECFF4A solid;':'';
-    this.puzzleApiService.updateCheck(this.index());
+    this.puzzleApiService.updateCheck(this.index().in);
   }
 
   openDialog(): void {
@@ -65,14 +68,14 @@ ngAfterContentInit(): void {
         maxWidth: '32vw',
         data: {index:this.index()}
     });
-    this.dialog.afterAllClosed.subscribe(result => {
-    });
+    this.dialog.afterAllClosed.subscribe();
   }
 
   clickManager(){
     this.activatedRoute.url.subscribe( (url)=>{
       if(url.toString()==='Puzzles'){
-        this.router.navigate(['Puzzles',this.index() ]);
+        this.puzzleDataGame.index=this.index().id;
+        this.router.navigate(['Puzzles',this.index().in ]);
       }
       else if(this.puzzleApiService.puzzleResult.length>0){
       this.updateCheck()

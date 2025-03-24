@@ -4,13 +4,13 @@ import {PuzzleFormConfigurationsModel,RequestPetitionPuzzleModel } from '../Mode
 import {puzzleFormConfigurations} from '../Models/constant-values';
 import { PuzzleApiService } from '../Services/puzzle-api.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalPuzzleResultComponent } from '../modal-puzzle-result/modal-puzzle-result.component';
+import { ModalPuzzleResultComponent } from './modal-puzzle-result/modal-puzzle-result.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @Component({
-  selector: 'form-puzzle-petition',
+  selector: 'app-form-puzzle-petition',
   imports: [
     ReactiveFormsModule,
     MatMenuModule,
@@ -47,7 +47,7 @@ export class FormPuzzlePetitionComponent {
 
     generatePuzzle(Npuzzles:number){
       this.petitonActive.set(true);
-      let request:RequestPetitionPuzzleModel={
+      const request:RequestPetitionPuzzleModel={
         height:this.getValue('height'),
         width:this.getValue('width'),
         expantionFactor:this.getValue('expantionFactor'),
@@ -82,7 +82,7 @@ export class FormPuzzlePetitionComponent {
           width: '100vw',
           maxWidth: '70vw'
       });
-      this.dialog.afterAllClosed.subscribe(result => {
+      this.dialog.afterAllClosed.subscribe(() => {
         this.petitonActive.set(false);
         this.apiPuzzle.resetResults();
       });

@@ -1,15 +1,19 @@
 import { OnInit, Component,inject, signal, OnDestroy } from '@angular/core';
 import {MatGridListModule} from '@angular/material/grid-list';
-import { PuzzleGameService } from '../Services/puzzle-game.service';
-import { PuzzleLocalService } from '../Services/puzzle-local.service';
+import { PuzzleGameService } from './Service/puzzle-game.service';
 import { cellColors } from '../Models/constant-values';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
+import { InfoPuzzleGameComponent } from './info-puzzle-game/info-puzzle-game.component';
+import { InfoPuzzleGameService } from './Service/info-puzzle-game.service';
+import { PuzzleDataService } from './Service/puzzle-data.service';
+
 @Component({
   selector: 'app-puzzle-game',
   imports: [
     MatGridListModule,
-    MatIcon
+    MatIcon,
+    InfoPuzzleGameComponent
 
   ],
   templateUrl: './puzzle-game.component.html',
@@ -19,29 +23,20 @@ import { MatIcon } from '@angular/material/icon';
 export class PuzzleGameComponent implements OnInit, OnDestroy {
 
   private readonly route = inject(ActivatedRoute);
-  protected index:number=0;
+  private readonly router = inject(Router);
   protected Matrix=signal<number[][]>([]);
   protected Playeri_j=signal<number[]>([]);
-  protected EnemyPositions:number[][]=[];
-  protected NroMovimientos : number= 0;
-  protected NroSoluciones:number=0;
-
-  protected isGameActive=signal<boolean>(false);
-  protected time=signal<number>(0);
-  protected moves=signal<number>(0);
- protected interval:any;
-  constructor(private gameService:PuzzleGameService,private puzzleLocalService:PuzzleLocalService,
-              private router:Router
-  ){}
+  protected EnemyPositions=signal<number[][]>([]);
+  protected informationData= inject(InfoPuzzleGameService);
+  protected puzzleData = inject(PuzzleDataService);
+  protected gameService = inject(PuzzleGameService);
+  
 
   ngOnInit(): void {
-    this.index= Number(this.route.snapshot.paramMap.get('index'));
-    let puzzleData={...this.puzzleLocalService.getPuzzle(this.index)};
-    this.Matrix.set([...puzzleData.Matrix]);
-    this.Playeri_j.set([...puzzleData.PlayerPostions]);
-    this.EnemyPositions=[...puzzleData.EnemyPositions];
-    this.NroMovimientos=puzzleData.NMoves;
-    this.NroSoluciones=puzzleData.NSolutions
+    this.puzzleData.index= String(this.route.snapshot.paramMap.get('index'));
+    this.Matrix.set([...this.puzzleData.Matrix]);
+    this.Playeri_j.set([...this.puzzleData.Playeri_j]);
+    this.EnemyPositions.set([...this.puzzleData.EnemyPositions]);
   }
 
   getColorRow(cell:number){
@@ -49,15 +44,15 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
   }
 
   botonAbajo(event: KeyboardEvent):void{
-      let buttonDown=this.gameService.buttonDown(event,
+      const buttonDown=this.gameService.buttonDown(event,
                                  [...this.Matrix()],
                                  this.Playeri_j(),
-                                 this.EnemyPositions);
-      let move= buttonDown[0];
-      let moveType=buttonDown[1];
+                                 this.EnemyPositions());
+      const move= buttonDown[0];
+      const moveType=buttonDown[1];
       if(moveType ==='Win'){
-        this.isGameActive.set(false);
-        clearInterval(this.interval);
+        this.informationData.isGameActive=false;
+        this.informationData.stopTime();
       }
       else if(moveType ==='Move'){
         this.Matrix()[this.Playeri_j()[0]][this.Playeri_j()[1]]=0;
@@ -67,35 +62,27 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
       else if(moveType==='Enemy'){
         this.Matrix()[move[0]][move[1]]=0;
       }
-        this.moves.set(this.moves()+1);
+        this.informationData.addMove();
   }
 
   ngOnDestroy(): void {
-    this.Matrix.set(this.gameService.resetPuzzle(this.Matrix(),this.puzzleLocalService.getPuzzle(this.index).PlayerPostions,this.Playeri_j(),this.EnemyPositions));
+    this.puzzleData.resetData();
   }
 
   startGame(){
-    this.isGameActive.set(!this.isGameActive());
-    if(this.isGameActive()){
-      this.interval = setInterval(() => {
-        this.time.set(this.time()+1);
-      },1000)
-    }
-    else{
-      clearInterval(this.interval);
-    }
+    this.informationData.startGame();
   }
 
   resetGame(){
-    this.Matrix.set(this.gameService.resetPuzzle(this.Matrix(),this.puzzleLocalService.getPuzzle(this.index).PlayerPostions,this.Playeri_j(),this.EnemyPositions));
-    this.moves.set(0);
-    this.time.set(0);
-    this.Playeri_j.set(this.puzzleLocalService.getPuzzle(this.index).PlayerPostions);
+/*     this.Matrix.set(this.gameService.resetPuzzle(this.Matrix(),this.puzzleLocalService.getPuzzle(this.index).PlayerPostions,this.Playeri_j(),this.EnemyPositions()));
+    this.Playeri_j.set(this.puzzleLocalService.getPuzzle(this.index).PlayerPostions); */
+    this.puzzleData.resetData();
+    this.informationData.resetGame();
   }
   back(){
     this.resetGame();
-    this.isGameActive.set(false);
     this.router.navigate(['/Puzzles']);
+    this.informationData.isGameActive=false;
   }
 }
 
