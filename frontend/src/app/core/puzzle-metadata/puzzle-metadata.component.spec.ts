@@ -8,9 +8,8 @@ describe('PuzzleMetadataComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PuzzleMetadataComponent]
-    })
-    .compileComponents();
+      imports: [PuzzleMetadataComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PuzzleMetadataComponent);
     component = fixture.componentInstance;

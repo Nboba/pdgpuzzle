@@ -1,70 +1,78 @@
-import { inject, 
-         Injectable, 
-         linkedSignal, 
-         signal } from '@angular/core';
+import { inject, Injectable, linkedSignal, signal } from '@angular/core';
 
 import { PuzzleLocalService } from '../../Services/puzzle-local.service';
 import { ResponsePuzzleModel } from '../../Models/request-puzzle-model';
 import { PuzzleGameService } from './puzzle-game.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PuzzleDataService {
-
-  private puzzleLocalService= inject(PuzzleLocalService);
+  private puzzleLocalService = inject(PuzzleLocalService);
   private gameService = inject(PuzzleGameService);
-  
-  private _index = signal<string>('');
-  private _dataPuzzle= linkedSignal<ResponsePuzzleModel>(()=>{return {...this.puzzleLocalService.getPuzzle(this.index)}});
-  private _Matrix=linkedSignal<number[][]>(()=>{return this.dataPuzzle.Matrix});
-  private _Playeri_j=linkedSignal<number[]>(()=>{return this.dataPuzzle.PlayerPostions});
-  private _initialPlayeri_j = linkedSignal<number[]>(() => { return this.dataPuzzle.PlayerPostions; });
-  private _EnemyPositions=linkedSignal<number[][]>(()=>{return this.dataPuzzle.EnemyPositions});
 
-  public get index():string {
+  private _index = signal<string>('');
+  private _dataPuzzle = linkedSignal<ResponsePuzzleModel>(() => {
+    return { ...this.puzzleLocalService.getPuzzle(this.index) };
+  });
+  private _Matrix = linkedSignal<number[][]>(() => {
+    return this.dataPuzzle.Matrix;
+  });
+  private _Playeri_j = linkedSignal<number[]>(() => {
+    return this.dataPuzzle.PlayerPostions;
+  });
+  private _initialPlayeri_j = linkedSignal<number[]>(() => {
+    return this.dataPuzzle.PlayerPostions;
+  });
+  private _EnemyPositions = linkedSignal<number[][]>(() => {
+    return this.dataPuzzle.EnemyPositions;
+  });
+
+  public get index(): string {
     return this._index();
   }
-  public set index(value:string) {
-    this._index.set(value) ;
+  public set index(value: string) {
+    this._index.set(value);
   }
-  public get Matrix():number[][] {
+  public get Matrix(): number[][] {
     return [...this._Matrix()];
   }
-  public set Matrix(value:number[][]) {
+  public set Matrix(value: number[][]) {
     this._Matrix.set(value);
   }
-  public get Playeri_j():number[] {
+  public get Playeri_j(): number[] {
     return [...this._Playeri_j()];
   }
-  public set Playeri_j(value:number[]) {
+  public set Playeri_j(value: number[]) {
     this._Playeri_j.set(value);
   }
-  public get EnemyPositions():number[][] {
+  public get EnemyPositions(): number[][] {
     return [...this._EnemyPositions()];
   }
-  public set EnemyPositions(value:number[][]) {
-    this._EnemyPositions.set(value) ;
+  public set EnemyPositions(value: number[][]) {
+    this._EnemyPositions.set(value);
   }
-  public get dataPuzzle():ResponsePuzzleModel {
-    return {...this._dataPuzzle()};
-  }
-
-  public set dataPuzzle(value:ResponsePuzzleModel) {
-     this._dataPuzzle.set(value);
+  public get dataPuzzle(): ResponsePuzzleModel {
+    return { ...this._dataPuzzle() };
   }
 
-  public get initialPlayeri_j():number[] {
+  public set dataPuzzle(value: ResponsePuzzleModel) {
+    this._dataPuzzle.set(value);
+  }
+
+  public get initialPlayeri_j(): number[] {
     return [...this._initialPlayeri_j()];
   }
-  public set initialPlayeri_j(value:number[]) {
-    this._initialPlayeri_j.set(value) ;
+  public set initialPlayeri_j(value: number[]) {
+    this._initialPlayeri_j.set(value);
   }
 
-    resetData(){
-      this.Matrix[this.Playeri_j[0]][this.Playeri_j[1]]=0;
-      this.Matrix[this.initialPlayeri_j[0]][this.initialPlayeri_j[1]]=5;
-      this.EnemyPositions.map((enemy:number[])=>{this.Matrix[enemy[0]][enemy[1]]=3});
-      this.Playeri_j=[...this.initialPlayeri_j];
+  resetData() {
+    this.Matrix[this.Playeri_j[0]][this.Playeri_j[1]] = 0;
+    this.Matrix[this.initialPlayeri_j[0]][this.initialPlayeri_j[1]] = 5;
+    this.EnemyPositions.map((enemy: number[]) => {
+      this.Matrix[enemy[0]][enemy[1]] = 3;
+    });
+    this.Playeri_j = [...this.initialPlayeri_j];
   }
 }

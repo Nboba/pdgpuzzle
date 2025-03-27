@@ -3,8 +3,8 @@ import { FormPuzzlePetitionComponent } from './core/form-puzzle-petition/form-pu
 import { PuzzleContainerComponent } from './core/puzzle-container/puzzle-container.component';
 import { PuzzleGameComponent } from './core/puzzle-game/puzzle-game.component';
 export const routes: Routes = [
-  { path: 'Create-Puzzles',component: FormPuzzlePetitionComponent },
-   { path: 'Puzzles', component: PuzzleContainerComponent },
-   { path: 'Puzzles/:index', component: PuzzleGameComponent,pathMatch: 'full' },
-   { path: '**',   redirectTo: 'Create-Puzzles', pathMatch: 'full' },
+  { path: 'Create-Puzzles', component: FormPuzzlePetitionComponent },
+  { path: 'Puzzles', component: PuzzleContainerComponent },
+  { path: 'Puzzles/:index', component: PuzzleGameComponent, pathMatch: 'full' },
+  { path: '**', redirectTo: 'Create-Puzzles', pathMatch: 'full' },
 ];

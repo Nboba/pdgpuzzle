@@ -8,9 +8,8 @@ describe('ModalPuzzleResultComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModalPuzzleResultComponent]
-    })
-    .compileComponents();
+      imports: [ModalPuzzleResultComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ModalPuzzleResultComponent);
     component = fixture.componentInstance;

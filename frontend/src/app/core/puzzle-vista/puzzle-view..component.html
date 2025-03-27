@@ -1,16 +1,23 @@
-<div class="puzzle-container "  [style]="backgroundColors">
-  <div class="puzzle-div" (click)="clickManager()" (keyup)="clickManager()" tabindex="0" matTooltip="click para seleccionar" >
-    <mat-grid-list cols="{{this.puzzleData.Matrix[1].length}}" >
-      @for( row of this.puzzleData.Matrix ; track $index; let i = $index){
-              @for( cell of row ; track $index; let j = $index){
-                  <mat-grid-tile
-                      [colspan]="1"
-                      [rowspan]="1"
-                      [style.background-color]="getColorRow(cell)">
-                  </mat-grid-tile>
-              }
+<div class="puzzle-container" [style]="backgroundColors">
+  <div
+    class="puzzle-div"
+    (click)="clickManager()"
+    (keyup)="clickManager()"
+    tabindex="0"
+    matTooltip="click para seleccionar"
+  >
+    <mat-grid-list cols="{{ this.puzzleData.Matrix[1].length }}">
+      @for (row of this.puzzleData.Matrix; track $index; let i = $index) {
+        @for (cell of row; track $index; let j = $index) {
+          <mat-grid-tile
+            [colspan]="1"
+            [rowspan]="1"
+            [style.background-color]="getColorRow(cell)"
+          >
+          </mat-grid-tile>
+        }
       }
     </mat-grid-list>
   </div>
-    <app-puzzle-metadata [indexP]="this.index()"></app-puzzle-metadata>
+  <app-puzzle-metadata [indexP]="this.index()"></app-puzzle-metadata>
 </div>

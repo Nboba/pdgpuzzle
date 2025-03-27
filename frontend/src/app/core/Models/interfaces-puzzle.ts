@@ -9,15 +9,15 @@ export interface DungeonWMoves {
   MoveCoord: number[];
 }
 
-export interface SolutionPlayer{
-  solutionTime:number;
-  SolutionNMoves:number;
-  SolutionMoves:DungeonWMoves
-  SolutionDate:string;
-  solutionLastTry:string
+export interface SolutionPlayer {
+  solutionTime: number;
+  SolutionNMoves: number;
+  SolutionMoves: DungeonWMoves;
+  SolutionDate: string;
+  solutionLastTry: string;
 }
 
-export interface keySignal{
-  key:string;
-  move:number[];
+export interface keySignal {
+  key: string;
+  move: number[];
 }

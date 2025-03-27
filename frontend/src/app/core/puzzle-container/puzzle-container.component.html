@@ -1,33 +1,28 @@
 <div class="div-container">
   <div class="div-filter">
-
     <mat-form-field>
       <mat-label>Select an option</mat-label>
       <mat-select [(value)]="filter" (valueChange)="filterPuzzles()">
-        @for(filters of filterOptions;track $index){
-          <mat-option value="{{filters}}" (click)="selected(filters)">{{filters}}</mat-option>
+        @for (filters of filterOptions; track $index) {
+          <mat-option value="{{ filters }}" (click)="selected(filters)">{{
+            filters
+          }}</mat-option>
         }
       </mat-select>
     </mat-form-field>
-
   </div>
 
   <div class="puzzles-container">
-    @for( puzzleIndex of this.savePuzzles(); track puzzleIndex){
-      <app-puzzle-view  [index]="puzzleIndex">
-      </app-puzzle-view>
-    }@empty {
+    @for (puzzleIndex of this.savePuzzles(); track puzzleIndex) {
+      <app-puzzle-view [index]="puzzleIndex"> </app-puzzle-view>
+    } @empty {
       <div class="empty-h1">
-        @if(this.filter()=== this.filterOptions[2]){
+        @if (this.filter() === this.filterOptions[2]) {
           <h1>No hay puzzles Disponibles</h1>
-        }@else {
+        } @else {
           <h1>No hay puzzles creados</h1>
         }
-
       </div>
-
     }
-
   </div>
 </div>
-

@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class InfoPuzzleGameService {
   private _NroMovimientos = signal(0);
@@ -24,7 +24,7 @@ export class InfoPuzzleGameService {
   get NroSoluciones(): number {
     return this._NroSoluciones();
   }
-  
+
   set NroSoluciones(value: number) {
     this.NroSoluciones = value;
   }
@@ -44,7 +44,7 @@ export class InfoPuzzleGameService {
   set time(value: number) {
     this._time.set(value);
   }
-  
+
   get moves(): number {
     return this._moves();
   }
@@ -52,29 +52,26 @@ export class InfoPuzzleGameService {
     this._moves.set(value);
   }
 
-
-
-  startGame(){
-    this.isGameActive=!this.isGameActive;
-    if(this._isGameActive()){
+  startGame() {
+    this.isGameActive = !this.isGameActive;
+    if (this._isGameActive()) {
       this._interval = setInterval(() => {
-        this.time=this.time+1;
-      },1000)
-    }
-    else{
+        this.time = this.time + 1;
+      }, 1000);
+    } else {
       this.stopTime();
     }
   }
-  resetGame(){
-    this.moves=0;
-    this.time=0;
+  resetGame() {
+    this.moves = 0;
+    this.time = 0;
   }
 
-  stopTime(){
+  stopTime() {
     clearInterval(this._interval);
   }
 
-  addMove(){
-    this.moves=this.moves+1;
+  addMove() {
+    this.moves = this.moves + 1;
   }
 }

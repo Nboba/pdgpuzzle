@@ -2,28 +2,38 @@
   <mat-expansion-panel hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        <div class="text-div">
-          Info Puzzle {{ this.indexP().in + 1}}
-        </div>
+        <div class="text-div">Info Puzzle {{ this.indexP().in + 1 }}</div>
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div>
-      <p>Nro de movimientos: {{metadata[0]}}</p>
-      <p>Nro de Soluciones: {{metadata[1]}}</p>
+      <p>Nro de movimientos: {{ metadata[0] }}</p>
+      <p>Nro de Soluciones: {{ metadata[1] }}</p>
     </div>
-    @if(this.isPetitionActive() === false){
+    @if (this.isPetitionActive() === false) {
       <div class="button-div">
-        @if(this.deleteActive()){
+        @if (this.deleteActive()) {
           <div class="button-container">
-            <button mat-icon-button (click)="deletePuzzle()" class="delete-acept-button">
+            <button
+              mat-icon-button
+              (click)="deletePuzzle()"
+              class="delete-acept-button"
+            >
               <mat-icon>check</mat-icon>
             </button>
-            <button mat-icon-button (click)="this.deleteActive.set(!this.deleteActive())" class="delete-cancel-button">
+            <button
+              mat-icon-button
+              (click)="this.deleteActive.set(!this.deleteActive())"
+              class="delete-cancel-button"
+            >
               <mat-icon>cancel</mat-icon>
             </button>
           </div>
-        }@else {
-          <button mat-icon-button (click)="this.deleteActive.set(!this.deleteActive())" class="delete-button">
+        } @else {
+          <button
+            mat-icon-button
+            (click)="this.deleteActive.set(!this.deleteActive())"
+            class="delete-button"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         }

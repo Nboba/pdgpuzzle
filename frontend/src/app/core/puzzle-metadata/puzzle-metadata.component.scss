@@ -1,33 +1,31 @@
-.text-div{
+.text-div {
   flex-grow: 1;
 }
 
-
 .button-div {
-	display: flex;
-
+  display: flex;
 }
 
-.delete-button{
+.delete-button {
   display: flex;
-	flex-grow: 0.5;
+  flex-grow: 0.5;
   align-content: center;
-	justify-content: center;
+  justify-content: center;
   margin: 0 auto;
   background-color: red;
 }
-.button-container{
+.button-container {
   margin: 0 auto;
-  gap: .5rem;
+  gap: 0.5rem;
   display: flex;
 }
-.delete-acept-button{
+.delete-acept-button {
   background-color: red;
   justify-content: center;
   display: flex;
 }
 
-.delete-cancel-button{
+.delete-cancel-button {
   background-color: green;
   justify-content: center;
   display: flex;

@@ -1,21 +1,19 @@
 <div class="modal">
   <h2 class="h2" mat-dialog-title>Puzzles Creados</h2>
   <mat-dialog-content class="puzzle-container">
-    @for(datapuzzle of this.puzzles();track $index){
-            <app-puzzle-view [index]="$index"></app-puzzle-view >
-  }
+    @for (datapuzzle of this.puzzles(); track $index) {
+      <app-puzzle-view [index]="$index"></app-puzzle-view>
+    }
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
-    @for(check of this.checks(); track $index){
-      @if(check.selected === true){
-        <span>[Puzzle{{check.index + 1}}]</span>
+    @for (check of this.checks(); track $index) {
+      @if (check.selected === true) {
+        <span>[Puzzle{{ check.index + 1 }}]</span>
       }
-
     }
-    <button mat-button [mat-dialog-close] (click)="guardarPuzzle()">Guardar Puzzles</button>
+    <button mat-button [mat-dialog-close] (click)="guardarPuzzle()">
+      Guardar Puzzles
+    </button>
   </mat-dialog-actions>
-
 </div>
-
-

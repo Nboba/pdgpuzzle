@@ -1,11 +1,11 @@
-import{DungeonWMoves} from './interfaces-puzzle';
-import{SolutionPlayer} from './interfaces-puzzle';
+import { DungeonWMoves } from './interfaces-puzzle';
+import { SolutionPlayer } from './interfaces-puzzle';
 
 export interface RequestPuzzleModel {
   response: ResponsePuzzleModel[];
 }
 export interface ResponsePuzzleModel {
-  id:string;
+  id: string;
   Matrix: number[][];
   NSolutions: number;
   NMoves: number;
@@ -16,27 +16,24 @@ export interface ResponsePuzzleModel {
   PlayerSolution: SolutionPlayer;
 }
 
-
 export interface RequestPetitionPuzzleModel {
-height: number;
-width: number;
-expantionFactor: number;
-enemyFactor: number;
-blockFactor: number;
-nPop: number;
-maxIter: number;
-mutationFactor: number;
-maxMoves: number;
-Npuzzles: number;
+  height: number;
+  width: number;
+  expantionFactor: number;
+  enemyFactor: number;
+  blockFactor: number;
+  nPop: number;
+  maxIter: number;
+  mutationFactor: number;
+  maxMoves: number;
+  Npuzzles: number;
 }
 
-export interface PuzzleFormConfigurationsModel{
-  label:string,
-  max:number,
-  min:number,
-  step:number,
-  default:number,
-  nameInput:string
+export interface PuzzleFormConfigurationsModel {
+  label: string;
+  max: number;
+  min: number;
+  step: number;
+  default: number;
+  nameInput: string;
 }
-
-
