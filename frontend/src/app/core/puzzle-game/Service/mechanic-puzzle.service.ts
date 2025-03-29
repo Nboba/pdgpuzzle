@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { SignalType } from '../../Models/constant-values';
-import { keySignal } from '../../Models/interfaces-puzzle';
+import { SignalType } from '../../../Models/constant-values';
+import { keySignal } from '../../../Models/interfaces-puzzle';
 
 @Injectable({
   providedIn: 'root',

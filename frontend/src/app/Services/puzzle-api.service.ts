@@ -14,8 +14,8 @@ import { puzzleSelected } from '../Models/interfaces-puzzle';
 })
 export class PuzzleApiService {
   private readonly API_URL: string = 'https://localhost:7146';
-  private _puzzleResult = signal<ResponsePuzzleModel[]>([]);
-  private _indexPuzzles = signal<puzzleSelected[]>([]);
+  private readonly _puzzleResult = signal<ResponsePuzzleModel[]>([]);
+  private readonly _indexPuzzles = signal<puzzleSelected[]>([]);
 
   constructor(private readonly http: HttpClient) {
     for (let i = 0; i < 10; i++) {

@@ -1,11 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { SignalType } from '../../Models/constant-values';
+import { SignalType } from '../../../Models/constant-values';
 import { MechanicPuzzleService } from './mechanic-puzzle.service';
 @Injectable({
   providedIn: 'any',
 })
 export class PuzzleGameService {
-  private gameMechanics = inject(MechanicPuzzleService);
+  private readonly gameMechanics = inject(MechanicPuzzleService);
 
   public resetPuzzle(
     puzzleDataRef: number[][],

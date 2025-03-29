@@ -9,8 +9,8 @@ export class PuzzleLocalService {
     string,
     ResponsePuzzleModel
   >();
-  private _filterPuzzleOptions = signal('start');
-  private _sortedPuzzles: Signal<{ in: number; id: string }[]> = computed(
+  private readonly _filterPuzzleOptions = signal('start');
+  private readonly _sortedPuzzles: Signal<{ in: number; id: string }[]> = computed(
     () => [...this.filterPuzzles(this.FilterPuzzleOptions)],
   );
 

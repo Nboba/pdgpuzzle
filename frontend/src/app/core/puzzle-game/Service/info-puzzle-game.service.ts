@@ -4,11 +4,11 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class InfoPuzzleGameService {
-  private _NroMovimientos = signal(0);
-  private _NroSoluciones = signal(0);
-  private _isGameActive = signal<boolean>(false);
-  private _time = signal<number>(0);
-  private _moves = signal<number>(0);
+  private readonly _NroMovimientos = signal(0);
+  private readonly _NroSoluciones = signal(0);
+  private readonly _isGameActive = signal<boolean>(false);
+  private readonly _time = signal<number>(0);
+  private readonly _moves = signal<number>(0);
   private _interval: ReturnType<typeof setInterval> = setInterval(() => {
     this._time.set(this._time() + 0);
   }, 0);

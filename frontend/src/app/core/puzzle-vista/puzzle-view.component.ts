@@ -5,15 +5,15 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { ResponsePuzzleModel } from '../Models/request-puzzle-model';
-import { cellColors } from '../Models/constant-values';
+import { ResponsePuzzleModel } from '../../Models/request-puzzle-model';
+import { cellColors } from '../../Models/constant-values';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PuzzleMetadataComponent } from '../puzzle-metadata/puzzle-metadata.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { PuzzleLocalService } from '../Services/puzzle-local.service';
-import { PuzzleApiService } from '../Services/puzzle-api.service';
+import { PuzzleLocalService } from '../..//Services/puzzle-local.service';
+import { PuzzleApiService } from '../../Services/puzzle-api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PuzzleGameComponent } from '../puzzle-game/puzzle-game.component';
 import { ActivatedRoute, Router } from '@angular/router';

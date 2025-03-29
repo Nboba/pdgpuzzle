@@ -1,7 +1,7 @@
 import { Component, inject, input, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { InfoPuzzleGameService } from '../Service/info-puzzle-game.service';
-import { PuzzleLocalService } from '../../Services/puzzle-local.service';
+import { PuzzleLocalService } from '../../../Services/puzzle-local.service';
 @Component({
   selector: 'app-info-puzzle-game',
   imports: [MatIcon],

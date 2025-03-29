@@ -1,9 +1,9 @@
 import { Component, computed, signal } from '@angular/core';
 import { PuzzleViewComponent } from '../puzzle-vista/puzzle-view.component';
-import { PuzzleLocalService } from '../Services/puzzle-local.service';
+import { PuzzleLocalService } from '../../Services/puzzle-local.service';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { filterPuzzleOptionsArray } from '../Models/constant-values';
+import { filterPuzzleOptionsArray } from '../../Models/constant-values';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({

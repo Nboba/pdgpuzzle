@@ -1,11 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, FormRecord } from '@angular/forms';
-import {
-  PuzzleFormConfigurationsModel,
-  RequestPetitionPuzzleModel,
-} from '../Models/request-puzzle-model';
-import { puzzleFormConfigurations } from '../Models/constant-values';
-import { PuzzleApiService } from '../Services/puzzle-api.service';
+import { RequestPetitionPuzzleModel} from '../../Models/request-puzzle-model';
+import { 
+  puzzleFormConfigurations,
+  PuzzleFormConfigurationsModel } from '../../Models/form-configuration';
+import { PuzzleApiService } from '../../Services/puzzle-api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalPuzzleResultComponent } from './modal-puzzle-result/modal-puzzle-result.component';
 import { MatMenuModule } from '@angular/material/menu';

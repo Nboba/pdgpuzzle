@@ -1,7 +1,7 @@
 import { AfterContentInit, Component, input, signal } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { PuzzleLocalService } from '../Services/puzzle-local.service';
-import { PuzzleApiService } from '../Services/puzzle-api.service';
+import { PuzzleLocalService } from '../../Services/puzzle-local.service';
+import { PuzzleApiService } from '../../Services/puzzle-api.service';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({

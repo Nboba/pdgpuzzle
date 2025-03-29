@@ -1,7 +1,7 @@
 import { OnInit, Component, inject, signal, OnDestroy } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { PuzzleGameService } from './Service/puzzle-game.service';
-import { cellColors } from '../Models/constant-values';
+import { cellColors } from '../..//Models/constant-values';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { InfoPuzzleGameComponent } from './info-puzzle-game/info-puzzle-game.component';

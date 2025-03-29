@@ -1,5 +1,7 @@
-import { DungeonWMoves } from './interfaces-puzzle';
-import { SolutionPlayer } from './interfaces-puzzle';
+import { 
+  DungeonWMoves,
+  SolutionPlayer
+ } from './interfaces-puzzle';
 
 export interface RequestPuzzleModel {
   response: ResponsePuzzleModel[];
@@ -29,11 +31,3 @@ export interface RequestPetitionPuzzleModel {
   Npuzzles: number;
 }
 
-export interface PuzzleFormConfigurationsModel {
-  label: string;
-  max: number;
-  min: number;
-  step: number;
-  default: number;
-  nameInput: string;
-}

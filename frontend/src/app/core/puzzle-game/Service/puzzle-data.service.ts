@@ -1,30 +1,30 @@
 import { inject, Injectable, linkedSignal, signal } from '@angular/core';
 
-import { PuzzleLocalService } from '../../Services/puzzle-local.service';
-import { ResponsePuzzleModel } from '../../Models/request-puzzle-model';
+import { PuzzleLocalService } from '../../../Services/puzzle-local.service';
+import { ResponsePuzzleModel } from '../../../Models/request-puzzle-model';
 import { PuzzleGameService } from './puzzle-game.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PuzzleDataService {
-  private puzzleLocalService = inject(PuzzleLocalService);
-  private gameService = inject(PuzzleGameService);
+  private readonly puzzleLocalService = inject(PuzzleLocalService);
+  private readonly gameService = inject(PuzzleGameService);
 
-  private _index = signal<string>('');
-  private _dataPuzzle = linkedSignal<ResponsePuzzleModel>(() => {
+  private readonly _index = signal<string>('');
+  private readonly _dataPuzzle = linkedSignal<ResponsePuzzleModel>(() => {
     return { ...this.puzzleLocalService.getPuzzle(this.index) };
   });
-  private _Matrix = linkedSignal<number[][]>(() => {
+  private readonly _Matrix = linkedSignal<number[][]>(() => {
     return this.dataPuzzle.Matrix;
   });
-  private _Playeri_j = linkedSignal<number[]>(() => {
+  private readonly _Playeri_j = linkedSignal<number[]>(() => {
     return this.dataPuzzle.PlayerPostions;
   });
-  private _initialPlayeri_j = linkedSignal<number[]>(() => {
+  private readonly _initialPlayeri_j = linkedSignal<number[]>(() => {
     return this.dataPuzzle.PlayerPostions;
   });
-  private _EnemyPositions = linkedSignal<number[][]>(() => {
+  private readonly _EnemyPositions = linkedSignal<number[][]>(() => {
     return this.dataPuzzle.EnemyPositions;
   });
 
