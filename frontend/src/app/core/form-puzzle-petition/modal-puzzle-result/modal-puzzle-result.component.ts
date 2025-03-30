@@ -6,11 +6,11 @@ import {
   MatDialogModule,
 } from '@angular/material/dialog';
 import { PuzzleViewComponent } from '../../puzzle-vista/puzzle-view.component';
-import { ResponsePuzzleModel } from '../../Models/request-puzzle-model';
+import { ResponsePuzzleModel } from '../../../Models/request-puzzle-model';
 import { MatButtonModule } from '@angular/material/button';
-import { puzzleSelected } from '../../Models/interfaces-puzzle';
-import { PuzzleLocalService } from '../../Services/puzzle-local.service';
-import { PuzzleApiService } from '../../Services/puzzle-api.service';
+import { IndexFront, puzzleSelected } from '../../../Models/interfaces-puzzle';
+import { PuzzleLocalService } from '../../../Services/puzzle-local.service';
+import { PuzzleApiService } from '../../../Services/puzzle-api.service';
 
 @Component({
   selector: 'app-modal-puzzle-result',
@@ -38,9 +38,13 @@ export class ModalPuzzleResultComponent {
   }
 
   guardarPuzzle(): void {
-    this.puzzleService.savedPuzzles =
-      this.puzzleApiService.getSelectedPuzzles();
+    this.puzzleService.savedPuzzles = this.puzzleApiService.getSelectedPuzzles();
     this.puzzleApiService.resetResults();
     this.dialogRef.close();
+  }
+
+  convertIdPuzzle(id: string,index :number): IndexFront {
+    return {  index:index,id: id };
+
   }
 }

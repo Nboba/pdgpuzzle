@@ -2,7 +2,7 @@
   <h2 class="h2" mat-dialog-title>Puzzles Creados</h2>
   <mat-dialog-content class="puzzle-container">
     @for (datapuzzle of this.puzzles(); track $index) {
-      <app-puzzle-view [index]="$index"></app-puzzle-view>
+      <app-puzzle-view [index]="convertIdPuzzle(datapuzzle.id,$index)"></app-puzzle-view>
     }
   </mat-dialog-content>
 

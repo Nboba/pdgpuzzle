@@ -3,6 +3,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { PuzzleLocalService } from '../../Services/puzzle-local.service';
 import { PuzzleApiService } from '../../Services/puzzle-api.service';
 import { MatIcon } from '@angular/material/icon';
+import { IndexFront } from '../../Models/interfaces-puzzle';
 
 @Component({
   selector: 'app-puzzle-metadata',
@@ -12,7 +13,7 @@ import { MatIcon } from '@angular/material/icon';
 })
 export class PuzzleMetadataComponent implements AfterContentInit {
   public metadata: [number, number] = [0, 0];
-  public indexP = input.required<{ in: number; id: string }>();
+  public indexP = input.required<IndexFront>();
   protected deleteActive = signal<boolean>(false);
   protected isPetitionActive = signal<boolean>(false);
 
@@ -23,7 +24,7 @@ export class PuzzleMetadataComponent implements AfterContentInit {
 
   ngAfterContentInit(): void {
     if (this.puzzleApiService.puzzleResult.length > 0) {
-      this.metadata = this.puzzleApiService.getMetaData(this.indexP().in);
+      this.metadata = this.puzzleApiService.getMetaData(this.indexP().index);
       this.isPetitionActive.set(true);
     } else {
       this.metadata = this.puzzleLocalService.getMetaData(this.indexP().id);

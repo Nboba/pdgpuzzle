@@ -18,6 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PuzzleGameComponent } from '../puzzle-game/puzzle-game.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PuzzleDataService } from '../puzzle-game/Service/puzzle-data.service';
+import { IndexFront } from '../../Models/interfaces-puzzle';
 
 @Component({
   selector: 'app-puzzle-view',
@@ -33,7 +34,7 @@ import { PuzzleDataService } from '../puzzle-game/Service/puzzle-data.service';
 })
 export class PuzzleViewComponent implements AfterContentInit {
   public puzzleData: ResponsePuzzleModel = {} as ResponsePuzzleModel;
-  public index = input.required<{ in: number; id: string }>();
+  public index = input.required<IndexFront>();
   protected checks = signal<boolean>(false);
   protected backgroundColors = '';
   protected readonly dialog = inject(MatDialog);
@@ -47,9 +48,8 @@ export class PuzzleViewComponent implements AfterContentInit {
   ) {}
 
   ngAfterContentInit(): void {
-    console.log(this.index());
     if (this.puzzleApiService.puzzleResult.length > 0) {
-      this.puzzleData = this.puzzleApiService.puzzleResult[this.index().in];
+      this.puzzleData = this.puzzleApiService.puzzleResult[this.index().index];
     } else {
       this.puzzleData = this.puzzleLocalService.getPuzzle(this.index().id);
     }
@@ -61,7 +61,7 @@ export class PuzzleViewComponent implements AfterContentInit {
   updateCheck() {
     this.checks.set(!this.checks());
     this.backgroundColors = this.checks() ? 'border: 13px #ECFF4A solid;' : '';
-    this.puzzleApiService.updateCheck(this.index().in);
+    this.puzzleApiService.updateCheck(this.index().index);
   }
 
   openDialog(): void {
@@ -77,7 +77,7 @@ export class PuzzleViewComponent implements AfterContentInit {
     this.activatedRoute.url.subscribe((url) => {
       if (url.toString() === 'Puzzles') {
         this.puzzleDataGame.index = this.index().id;
-        this.router.navigate(['Puzzles', this.index().in]);
+        this.router.navigate(['Puzzles', this.index().index]);
       } else if (this.puzzleApiService.puzzleResult.length > 0) {
         this.updateCheck();
       }

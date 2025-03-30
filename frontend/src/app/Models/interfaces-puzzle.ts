@@ -21,3 +21,8 @@ export interface keySignal {
   key: string;
   move: number[];
 }
+
+export interface IndexFront{
+  index: number;
+  id: string;
+}

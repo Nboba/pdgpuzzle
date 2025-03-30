@@ -1,27 +1,31 @@
-import { computed, effect, Injectable, Signal, signal } from '@angular/core';
+import { computed, effect, Injectable, signal, linkedSignal } from '@angular/core';
 import { ResponsePuzzleModel } from '../Models/request-puzzle-model';
 import { filterPuzzleOptions } from '../Models/constant-values';
+import { IndexFront } from '../Models/interfaces-puzzle';
 @Injectable({
   providedIn: 'root',
 })
 export class PuzzleLocalService {
-  private _savedPuzzles: Map<string, ResponsePuzzleModel> = new Map<
+  private readonly _savedPuzzles: Map<string, ResponsePuzzleModel> = new Map<
     string,
     ResponsePuzzleModel
   >();
   private readonly _filterPuzzleOptions = signal('start');
-  private readonly _sortedPuzzles: Signal<{ in: number; id: string }[]> = computed(
-    () => [...this.filterPuzzles(this.FilterPuzzleOptions)],
+  private readonly _sortedPuzzles=linkedSignal<IndexFront[]>(computed(
+    () => [...this.filterPuzzles(this.FilterPuzzleOptions)]),
   );
 
   constructor() {
     const filter = localStorage.getItem('filterPuzzleOptions');
     const savePuzzles = localStorage.getItem('puzzlesSelected');
-    if (savePuzzles !== null) {
+    if (savePuzzles !== null ) {
       const puzzles = JSON.parse(localStorage.getItem('puzzlesSelected') ?? '');
-      puzzles.forEach((puzzle: ResponsePuzzleModel) => {
-        this._savedPuzzles.set(puzzle.id, puzzle);
-      });
+      if(puzzles.length > 0)
+      {
+        puzzles.forEach((puzzle: ResponsePuzzleModel) => {
+          this._savedPuzzles.set(puzzle.id, puzzle);
+        });
+      }
     }
     if (filter !== null && filter.length > 0) {
       this.FilterPuzzleOptions = filter;
@@ -42,10 +46,10 @@ export class PuzzleLocalService {
     puzzle.forEach((puzzle: ResponsePuzzleModel) => {
       this._savedPuzzles.set(puzzle.id, puzzle);
     });
-    localStorage.setItem('puzzlesSelected', JSON.stringify(this._savedPuzzles));
+    localStorage.setItem('puzzlesSelected', JSON.stringify(Array.from(this.savedPuzzles.values())));
     const filter = localStorage.getItem('filterPuzzleOptions');
     if (filter !== null && filter.length > 0) {
-      this.FilterPuzzleOptions = filter;
+      this._sortedPuzzles.set([...this.filterPuzzles(filter)]);
     }
   }
 
@@ -58,11 +62,11 @@ export class PuzzleLocalService {
   public get FilterPuzzleOptions(): string {
     return this._filterPuzzleOptions();
   }
-  public get SortedPuzzles(): { in: number; id: string }[] {
+  public get SortedPuzzles(): IndexFront[] {
     return [...this._sortedPuzzles()];
   }
 
-  public filterPuzzles(filter: string): { in: number; id: string }[] {
+  public filterPuzzles(filter: string): IndexFront[] {
     const puzzleArray = Array.from(this.savedPuzzles.values());
     switch (filter) {
       case filterPuzzleOptions.solutions: {
@@ -108,11 +112,11 @@ export class PuzzleLocalService {
 
   public getIndexOfPuzzle(
     sortedPuzzles: ResponsePuzzleModel[],
-  ): { in: number; id: string }[] {
-    const index: { in: number; id: string }[] = [];
+  ): IndexFront[] {
+    const index: IndexFront[] = [];
     let i = 0;
     sortedPuzzles.forEach((puzzle: ResponsePuzzleModel) => {
-      index.push({ in: i, id: puzzle.id });
+      index.push({ index: i, id: puzzle.id });
       i++;
     });
     return index;
@@ -131,10 +135,10 @@ export class PuzzleLocalService {
 
   public deletePuzzle(id: string) {
     this._savedPuzzles.delete(id);
-    localStorage.setItem('puzzlesSelected', JSON.stringify(this._savedPuzzles));
+    localStorage.setItem('puzzlesSelected', JSON.stringify(Array.from(this.savedPuzzles.values())));
     const filter = localStorage.getItem('filterPuzzleOptions');
     if (filter !== null && filter.length > 0) {
-      this.FilterPuzzleOptions = filter;
+      this._sortedPuzzles.set([...this.filterPuzzles(filter)]);
     }
   }
 }
