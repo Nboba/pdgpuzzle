@@ -77,7 +77,7 @@ export class PuzzleViewComponent implements AfterContentInit {
     this.activatedRoute.url.subscribe((url) => {
       if (url.toString() === 'Puzzles') {
         this.puzzleDataGame.index = this.index().id;
-        this.router.navigate(['Puzzles', this.index().index]);
+        this.router.navigate(['Puzzles', this.index().id]);
       } else if (this.puzzleApiService.puzzleResult.length > 0) {
         this.updateCheck();
       }

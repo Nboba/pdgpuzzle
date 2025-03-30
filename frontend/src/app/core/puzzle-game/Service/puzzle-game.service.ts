@@ -15,7 +15,7 @@ export class PuzzleGameService {
   ): number[][] {
     puzzleDataRef[playeri_j[0]][playeri_j[1]] = 0;
     puzzleDataRef[initialPlayeri_j[0]][initialPlayeri_j[1]] = 5;
-    enemyPosition.map((enemy: number[]) => {
+    enemyPosition.forEach((enemy: number[]) => {
       puzzleDataRef[enemy[0]][enemy[1]] = 3;
     });
     return puzzleDataRef;

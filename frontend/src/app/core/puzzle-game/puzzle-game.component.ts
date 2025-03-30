@@ -1,4 +1,4 @@
-import { OnInit, Component, inject, signal, OnDestroy } from '@angular/core';
+import { OnInit, Component, inject, OnDestroy, linkedSignal } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { PuzzleGameService } from './Service/puzzle-game.service';
 import { cellColors } from '../..//Models/constant-values';
@@ -17,18 +17,19 @@ import { PuzzleDataService } from './Service/puzzle-data.service';
 export class PuzzleGameComponent implements OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  protected Matrix = signal<number[][]>([]);
-  protected Playeri_j = signal<number[]>([]);
-  protected EnemyPositions = signal<number[][]>([]);
-  protected informationData = inject(InfoPuzzleGameService);
-  protected puzzleData = inject(PuzzleDataService);
-  protected gameService = inject(PuzzleGameService);
+  protected Matrix = linkedSignal<number[][]>(() => this.puzzleData.Matrix);
+  protected Playeri_j = linkedSignal<number[]>(() => this.puzzleData.Playeri_j);
+  protected EnemyPositions = linkedSignal<number[][]>(() => this.puzzleData.EnemyPositions);
+
+  protected readonly informationData = inject(InfoPuzzleGameService);
+  protected readonly puzzleData = inject(PuzzleDataService);
+  protected readonly gameService = inject(PuzzleGameService);
 
   ngOnInit(): void {
     this.puzzleData.index = String(this.route.snapshot.paramMap.get('index'));
-    this.Matrix.set([...this.puzzleData.Matrix]);
-    this.Playeri_j.set([...this.puzzleData.Playeri_j]);
-    this.EnemyPositions.set([...this.puzzleData.EnemyPositions]);
+    this.informationData.isGameActive = false;
+    this.informationData.NroMovimientos= this.puzzleData.dataPuzzle.NMoves;
+    this.informationData.NroSoluciones= this.puzzleData.dataPuzzle.NSolutions;
   }
 
   getColorRow(cell: number) {
@@ -58,7 +59,7 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.puzzleData.resetData();
+    this.puzzleData.resetData(this.Playeri_j());
   }
 
   startGame() {
@@ -68,7 +69,7 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
   resetGame() {
     /*     this.Matrix.set(this.gameService.resetPuzzle(this.Matrix(),this.puzzleLocalService.getPuzzle(this.index).PlayerPostions,this.Playeri_j(),this.EnemyPositions()));
     this.Playeri_j.set(this.puzzleLocalService.getPuzzle(this.index).PlayerPostions); */
-    this.puzzleData.resetData();
+    this.puzzleData.resetData(this.Playeri_j());
     this.informationData.resetGame();
   }
   back() {

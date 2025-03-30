@@ -1,4 +1,4 @@
-import { inject, Injectable, linkedSignal, signal } from '@angular/core';
+import { computed, inject, Injectable, linkedSignal, signal } from '@angular/core';
 
 import { PuzzleLocalService } from '../../../Services/puzzle-local.service';
 import { ResponsePuzzleModel } from '../../../Models/request-puzzle-model';
@@ -12,9 +12,7 @@ export class PuzzleDataService {
   private readonly gameService = inject(PuzzleGameService);
 
   private readonly _index = signal<string>('');
-  private readonly _dataPuzzle = linkedSignal<ResponsePuzzleModel>(() => {
-    return { ...this.puzzleLocalService.getPuzzle(this.index) };
-  });
+  private readonly _dataPuzzle = linkedSignal<ResponsePuzzleModel>(computed(()=> this.puzzleLocalService.getPuzzle(this._index())));
   private readonly _Matrix = linkedSignal<number[][]>(() => {
     return this.dataPuzzle.Matrix;
   });
@@ -67,10 +65,10 @@ export class PuzzleDataService {
     this._initialPlayeri_j.set(value);
   }
 
-  resetData() {
-    this.Matrix[this.Playeri_j[0]][this.Playeri_j[1]] = 0;
+  resetData(playerpos:number[]) {
+    this.Matrix[playerpos[0]][playerpos[1]] = 0;
     this.Matrix[this.initialPlayeri_j[0]][this.initialPlayeri_j[1]] = 5;
-    this.EnemyPositions.map((enemy: number[]) => {
+    this.EnemyPositions.forEach((enemy: number[]) => {
       this.Matrix[enemy[0]][enemy[1]] = 3;
     });
     this.Playeri_j = [...this.initialPlayeri_j];

@@ -18,7 +18,7 @@ export class InfoPuzzleGameService {
     return this._NroMovimientos();
   }
   set NroMovimientos(value: number) {
-    this.NroMovimientos = value;
+    this._NroMovimientos.set(value) ;
   }
 
   get NroSoluciones(): number {
@@ -26,7 +26,7 @@ export class InfoPuzzleGameService {
   }
 
   set NroSoluciones(value: number) {
-    this.NroSoluciones = value;
+    this._NroSoluciones.set(value) ;
   }
 
   get isGameActive(): boolean {
@@ -54,10 +54,12 @@ export class InfoPuzzleGameService {
 
   startGame() {
     this.isGameActive = !this.isGameActive;
-    if (this._isGameActive()) {
+    if (this.isGameActive) {
       this._interval = setInterval(() => {
         this.time = this.time + 1;
       }, 1000);
+      this.moves = 0;
+      this.time = 0;
     } else {
       this.stopTime();
     }
@@ -73,5 +75,14 @@ export class InfoPuzzleGameService {
 
   addMove() {
     this.moves = this.moves + 1;
+  }
+
+  resetDataInfo(){
+    this.moves = 0;
+    this.time = 0;
+    this.isGameActive=false;
+    this.NroMovimientos=0;
+    this.NroSoluciones=0;
+    this.stopTime();
   }
 }
