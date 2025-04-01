@@ -26,6 +26,28 @@ export class PuzzleDataService {
     return this.dataPuzzle.EnemyPositions;
   });
 
+  private readonly _time = linkedSignal<number>(() => {
+    return this.dataPuzzle.PlayerSolution.SolutionTime;
+  });
+
+  private readonly _moves = linkedSignal<number>(() => {
+    return this.dataPuzzle.PlayerSolution.SolutionNMoves;
+  });
+
+  public get time(): number {
+    return this._time();
+  }
+  public set time(value: number) {
+    this._time.set(value);
+  }
+
+  public get moves(): number {
+    return this._moves();
+  }
+  public set moves(value: number) {
+    this._moves.set(value);
+  }
+
   public get index(): string {
     return this._index();
   }
@@ -72,5 +94,18 @@ export class PuzzleDataService {
       this.Matrix[enemy[0]][enemy[1]] = 3;
     });
     this.Playeri_j = [...this.initialPlayeri_j];
+  }
+
+
+  wingame(time:number, moves:number) {
+
+   if(this.time === 0 && this.moves === 0)
+    {
+      this.puzzleLocalService.saveDataGame(this.index, time, moves); 
+    }
+    else if(this.time > time && this.moves > moves)
+    {
+      this.puzzleLocalService.saveDataGame(this.index, time, moves); 
+    }
   }
 }

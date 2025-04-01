@@ -9,5 +9,15 @@ namespace WebApplication1.Models
         public DungeonWMoves[] SolutionMoves { get; set; } = [];
         public DateTime SolutionDate { get; set; }= DateTime.Now;
         public DateTime solutionLastTry { get; set; } = DateTime.Now;
+
+
+        public SolutionPlayer()
+        {
+            this.SolutionDate = DateTime.Now;
+            this.solutionLastTry = DateTime.Now;
+            this.SolutionTime = 0;
+            this.SolutionNMoves = 0;
+            this.SolutionMoves = [];
+        }
     }
 }

@@ -1,4 +1,4 @@
-<div class="div-info-game">
+<div class="div-info-game" cdkDrag>
   <div class="div-time">
     <div class="time-button">
       @if (!this.isGameActive()) {
@@ -18,23 +18,35 @@
     </div>
   </div>
   <div class="div-info">
-    <div class="div-dinamic-info">
-      <div>
-        <h2>Informacion del juego</h2>
-      </div>
-      <div class="info-infor">
-        <mat-icon class="mat-info">directions_run</mat-icon>
-        <p class="p-info">Movimientos : {{ this.moves() }}</p>
-      </div>
-      <div class="info-infor">
-        <mat-icon class="mat-info">timer</mat-icon>
-        <p class="p-info">Tiempo : {{ this.time() }}</p>
-      </div>
-    </div>
-    <div class="div-static-info">
-      <h3>Informacion del Puzzle</h3>
-      <p>Movimientos minimos: {{ this.NroMovimientos() }}</p>
-      <p>Nro Soluciones : {{ this.NroSoluciones() }}</p>
-    </div>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Informacion del juego</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="div-dinamic-info">
+          <div class="info-infor">
+            <mat-icon class="mat-info">directions_run</mat-icon>
+            <p class="p-info">Movimientos : {{ this.moves() }}</p>
+          </div>
+          <div class="info-infor">
+            <mat-icon class="mat-info">timer</mat-icon>
+            <p class="p-info">Tiempo : {{ this.time() }}</p>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Informacion del Puzzle</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="div-info">
+          <div class="div-static-info">
+            <p>Movimientos minimos: {{ this.NroMovimientos() }}</p>
+            <p>Nro Soluciones : {{ this.NroSoluciones() }}</p>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
 </div>
+
+

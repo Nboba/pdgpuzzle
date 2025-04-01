@@ -1,11 +1,17 @@
 import { Component, inject, linkedSignal, OnDestroy, output} from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
+import {CdkDrag} from '@angular/cdk/drag-drop';
+import {MatExpansionModule} from '@angular/material/expansion';
 import { InfoPuzzleGameService } from '../Service/info-puzzle-game.service';
 import {PuzzleDataService} from '../Service/puzzle-data.service';
-
 @Component({
   selector: 'app-info-puzzle-game',
-  imports: [MatIcon],
+  imports: [
+    MatIcon,
+    CdkDrag,
+    MatExpansionModule,
+    
+  ],
   templateUrl: './info-puzzle-game.component.html',
   styleUrl: './info-puzzle-game.component.scss',
 })

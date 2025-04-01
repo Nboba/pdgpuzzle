@@ -47,7 +47,9 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
     const moveType = buttonDown[1];
     if (moveType === 'Win') {
       this.informationData.isGameActive = false;
-      this.informationData.stopTime();
+      this.puzzleData.wingame(this.informationData.time, this.informationData.moves);
+      this.resetGame();
+      this.informationData.resetDataInfo();
     } else if (moveType === 'Move') {
       this.Matrix()[this.Playeri_j()[0]][this.Playeri_j()[1]] = 0;
       this.Matrix()[move[0]][move[1]] = 5;

@@ -81,7 +81,7 @@ export class PuzzleLocalService {
         return this.getIndexOfPuzzle(
           puzzleArray.sort(
             (a: ResponsePuzzleModel, b: ResponsePuzzleModel) =>
-              b.PlayerSolution.solutionTime - a.PlayerSolution.solutionTime,
+              b.PlayerSolution.SolutionTime - a.PlayerSolution.SolutionTime,
           ),
         );
       }
@@ -140,5 +140,13 @@ export class PuzzleLocalService {
     if (filter !== null && filter.length > 0) {
       this._sortedPuzzles.set([...this.filterPuzzles(filter)]);
     }
+  }
+
+  public saveDataGame(index : string, time:number,moves:number){
+    const puzzle = this.getPuzzle(index);
+    puzzle.PlayerSolution.SolutionTime = time;
+    puzzle.PlayerSolution.SolutionNMoves = moves;
+    this.savedPuzzles.set(index,puzzle);
+    localStorage.setItem('puzzlesSelected', JSON.stringify(Array.from(this.savedPuzzles.values())));
   }
 }

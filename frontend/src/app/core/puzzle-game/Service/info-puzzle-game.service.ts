@@ -85,4 +85,6 @@ export class InfoPuzzleGameService {
     this.NroSoluciones=0;
     this.stopTime();
   }
+
+
 }

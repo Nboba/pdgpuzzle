@@ -10,7 +10,7 @@ export interface DungeonWMoves {
 }
 
 export interface SolutionPlayer {
-  solutionTime: number;
+  SolutionTime: number;
   SolutionNMoves: number;
   SolutionMoves: DungeonWMoves;
   SolutionDate: string;
