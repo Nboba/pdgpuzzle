@@ -81,8 +81,6 @@ export class InfoPuzzleGameService {
     this.moves = 0;
     this.time = 0;
     this.isGameActive=false;
-    this.NroMovimientos=0;
-    this.NroSoluciones=0;
     this.stopTime();
   }
 

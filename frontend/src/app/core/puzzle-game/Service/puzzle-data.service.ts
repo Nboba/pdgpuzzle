@@ -97,13 +97,13 @@ export class PuzzleDataService {
   }
 
 
-  wingame(time:number, moves:number) {
-
+  wingame(time:number, moves:number,Playeri_j:number[]) {
+    this.resetData(Playeri_j);
    if(this.time === 0 && this.moves === 0)
     {
       this.puzzleLocalService.saveDataGame(this.index, time, moves); 
     }
-    else if(this.time > time && this.moves > moves)
+    else if(this.time > time || this.moves > moves)
     {
       this.puzzleLocalService.saveDataGame(this.index, time, moves); 
     }
