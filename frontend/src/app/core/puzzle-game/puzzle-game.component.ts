@@ -46,10 +46,12 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
     const move = buttonDown[0];
     const moveType = buttonDown[1];
     if (moveType === 'Win') {
-      this.informationData.isGameActive = false;
-      this.puzzleData.wingame(this.informationData.time, this.informationData.moves);
-      this.resetGame();
+      this.puzzleData.wingame(
+        this.informationData.time,
+         this.informationData.moves,
+         move);
       this.informationData.resetDataInfo();
+      return;
     } else if (moveType === 'Move') {
       this.Matrix()[this.Playeri_j()[0]][this.Playeri_j()[1]] = 0;
       this.Matrix()[move[0]][move[1]] = 5;
@@ -71,8 +73,9 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
   resetGame() {
     /*     this.Matrix.set(this.gameService.resetPuzzle(this.Matrix(),this.puzzleLocalService.getPuzzle(this.index).PlayerPostions,this.Playeri_j(),this.EnemyPositions()));
     this.Playeri_j.set(this.puzzleLocalService.getPuzzle(this.index).PlayerPostions); */
+    console.log(this.Playeri_j())
     this.puzzleData.resetData(this.Playeri_j());
-    this.informationData.resetGame();
+    this.informationData.resetDataInfo();
   }
   back() {
     this.resetGame();

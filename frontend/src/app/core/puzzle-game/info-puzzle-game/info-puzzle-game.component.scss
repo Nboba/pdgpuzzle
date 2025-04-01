@@ -4,28 +4,11 @@
     background-color: white;
     padding: 1rem;
     min-width: fit-content;
+    max-width: 25%;
+    border-radius: 1rem;
   }
   
-  .div-time {
-    display: inline-flex;
-    align-items: center;
-    flex-direction: row;
-  }
-  
-  .time-button {
-    flex-grow: 1;
-    display: flex;
-  }
-  .reset-button {
-    flex-grow: 1;
-    display: flex;
-  }
-  .div-info {
-  }
-  .info-infor {
-    display: grid;
-    grid-template-columns: 1fr 6fr;
-  }
+
   .mat-info {
     align-self: center;
   }
@@ -41,26 +24,15 @@
     }
   }
   
-  .flex-button {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-  }
 
   @media only screen and ((max-width: 900px)) {
     .div-info-game {
       display: grid;
       grid-template-rows: 4rem 1fr;
-      grid-column-end: 3;
-      grid-column-start: 1;
-      max-width: 100%;
+      
     }
-    .div-time {
-      grid-row: 1;
-    }
-    .div-info {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-row: 2;
-    }
+  }
+
+.time-buttons{
+    display: inline-flex;
   }
