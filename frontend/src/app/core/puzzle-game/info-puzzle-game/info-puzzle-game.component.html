@@ -12,13 +12,15 @@
               <p class="p-info">{{ this.time() }}</p>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <div class="div-info">
-            <div class="div-static-info">
-              <h3>Record Actual</h3>
-              <p>Movimientos minimos: {{ this.NroMovimientos() }}</p>
-              <p>Nro Soluciones : {{ this.NroSoluciones() }}</p>
+          @if(this.recordMoves() !== 0){
+            <div class="div-info">
+              <div class="div-static-info">
+                <h3>Record Actual</h3>
+                <p>Movimientos : {{ this.recordMoves()}}</p>
+                <p>Tiempo : {{ this.recordTime() }} segundos</p>
+              </div>
             </div>
-          </div>
+          }
         </mat-expansion-panel>
         <mat-expansion-panel>
           <mat-expansion-panel-header>

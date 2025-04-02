@@ -9,6 +9,8 @@ export class InfoPuzzleGameService {
   private readonly _isGameActive = signal<boolean>(false);
   private readonly _time = signal<number>(0);
   private readonly _moves = signal<number>(0);
+  private readonly _timeRecord = signal<number>(0);
+  private readonly _movesRecord = signal<number>(0);
   private _interval: ReturnType<typeof setInterval> = setInterval(() => {
     this._time.set(this._time() + 0);
   }, 0);
@@ -50,6 +52,20 @@ export class InfoPuzzleGameService {
   }
   set moves(value: number) {
     this._moves.set(value);
+  }
+
+   get timeRecord():number {
+    return this._timeRecord();
+  }
+   set timeRecord(value:number) {
+    this._timeRecord.set(value);
+  }
+
+  get movesRecord():number {
+    return this._movesRecord();
+  }
+   set movesRecord(value: number) {
+    this._movesRecord.set(value);
   }
 
   startGame() {

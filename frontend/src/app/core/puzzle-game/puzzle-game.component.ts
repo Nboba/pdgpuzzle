@@ -30,6 +30,13 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
     this.informationData.isGameActive = false;
     this.informationData.NroMovimientos= this.puzzleData.dataPuzzle.NMoves;
     this.informationData.NroSoluciones= this.puzzleData.dataPuzzle.NSolutions;
+    if (this.puzzleData.dataPuzzle.PlayerSolution.SolutionTime !== 0) {
+      this.informationData.timeRecord = this.puzzleData.dataPuzzle.PlayerSolution.SolutionTime;
+    }
+    if (this.puzzleData.dataPuzzle.PlayerSolution.SolutionNMoves !== 0) {
+      this.informationData.movesRecord = this.puzzleData.dataPuzzle.PlayerSolution.SolutionNMoves;
+    }
+    console.log(this.informationData)
   }
 
   getColorRow(cell: number) {
