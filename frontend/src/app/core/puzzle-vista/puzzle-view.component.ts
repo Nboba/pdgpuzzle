@@ -33,19 +33,18 @@ import { IndexFront } from '../../Models/interfaces-puzzle';
   styleUrl: './puzzle-view..component.scss',
 })
 export class PuzzleViewComponent implements AfterContentInit {
+  protected readonly dialog = inject(MatDialog);
+  protected readonly activatedRoute = inject(ActivatedRoute);
+  protected readonly router = inject(Router);
+
+  protected puzzleDataGame = inject(PuzzleDataService);
+  protected puzzleLocalService = inject(PuzzleLocalService);
+  protected puzzleApiService = inject(PuzzleApiService);
+
   public puzzleData: ResponsePuzzleModel = {} as ResponsePuzzleModel;
   public index = input.required<IndexFront>();
   protected checks = signal<boolean>(false);
   protected backgroundColors = '';
-  protected readonly dialog = inject(MatDialog);
-  protected readonly activatedRoute = inject(ActivatedRoute);
-  protected readonly router = inject(Router);
-  protected puzzleDataGame = inject(PuzzleDataService);
-
-  constructor(
-    private puzzleLocalService: PuzzleLocalService,
-    private puzzleApiService: PuzzleApiService,
-  ) {}
 
   ngAfterContentInit(): void {
     if (this.puzzleApiService.puzzleResult.length > 0) {
@@ -76,8 +75,7 @@ export class PuzzleViewComponent implements AfterContentInit {
   clickManager() {
     this.activatedRoute.url.subscribe((url) => {
       if (url.toString() === 'Puzzles') {
-        this.puzzleDataGame.index = this.index().id;
-        this.router.navigate(['Puzzles', this.index().id]);
+        this.router.navigate(['Puzzles', this.index().index]);
       } else if (this.puzzleApiService.puzzleResult.length > 0) {
         this.updateCheck();
       }

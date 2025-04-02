@@ -13,26 +13,26 @@ export class PuzzleDataService {
 
   private readonly _index = signal<string>('');
   private readonly _dataPuzzle = linkedSignal<ResponsePuzzleModel>(computed(()=> this.puzzleLocalService.getPuzzle(this._index())));
-  private readonly _Matrix = linkedSignal<number[][]>(() => {
+  private readonly _Matrix = linkedSignal<number[][]>(computed(() => {
     return this.dataPuzzle.Matrix;
-  });
-  private readonly _Playeri_j = linkedSignal<number[]>(() => {
+  }));
+  private readonly _Playeri_j = linkedSignal<number[]>(computed(() => {
     return this.dataPuzzle.PlayerPostions;
-  });
-  private readonly _initialPlayeri_j = linkedSignal<number[]>(() => {
+  }));
+  private readonly _initialPlayeri_j = linkedSignal<number[]>(computed(() => {
     return this.dataPuzzle.PlayerPostions;
-  });
-  private readonly _EnemyPositions = linkedSignal<number[][]>(() => {
+  }));
+  private readonly _EnemyPositions = linkedSignal<number[][]>(computed(() => {
     return this.dataPuzzle.EnemyPositions;
-  });
+  }));
 
-  private readonly _time = linkedSignal<number>(() => {
+  private readonly _time = linkedSignal<number>(computed(() => {
     return this.dataPuzzle.PlayerSolution.SolutionTime;
-  });
+  }));
 
-  private readonly _moves = linkedSignal<number>(() => {
+  private readonly _moves = linkedSignal<number>(computed(() => {
     return this.dataPuzzle.PlayerSolution.SolutionNMoves;
-  });
+  }));
 
   public get time(): number {
     return this._time();
@@ -97,13 +97,16 @@ export class PuzzleDataService {
   }
 
 
-  wingame(time:number, moves:number,Playeri_j:number[]) {
+  wingame(time:number, moves:number,Playeri_j:number[]):void {
     this.resetData(Playeri_j);
+    if(time===0 && moves!==0){
+      return;
+    }
    if(this.time === 0 && this.moves === 0)
     {
       this.puzzleLocalService.saveDataGame(this.index, time, moves); 
     }
-    else if(this.time > time || this.moves > moves)
+    else if(this.time > 0 || this.moves > 0)
     {
       this.puzzleLocalService.saveDataGame(this.index, time, moves); 
     }

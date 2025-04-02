@@ -1,4 +1,4 @@
-import { OnInit, Component, inject, OnDestroy, linkedSignal } from '@angular/core';
+import { OnInit, Component, inject, OnDestroy, linkedSignal, HostListener } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { PuzzleGameService } from './Service/puzzle-game.service';
 import { cellColors } from '../..//Models/constant-values';
@@ -7,6 +7,7 @@ import { MatIcon } from '@angular/material/icon';
 import { InfoPuzzleGameComponent } from './info-puzzle-game/info-puzzle-game.component';
 import { InfoPuzzleGameService } from './Service/info-puzzle-game.service';
 import { PuzzleDataService } from './Service/puzzle-data.service';
+import { PuzzleLocalService } from '../../Services/puzzle-local.service';
 
 @Component({
   selector: 'app-puzzle-game',
@@ -24,26 +25,23 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
   protected readonly informationData = inject(InfoPuzzleGameService);
   protected readonly puzzleData = inject(PuzzleDataService);
   protected readonly gameService = inject(PuzzleGameService);
-
+  protected readonly puzzleLocal = inject(PuzzleLocalService);
   ngOnInit(): void {
-    this.puzzleData.index = String(this.route.snapshot.paramMap.get('index'));
+    const index= Number(this.route.snapshot.paramMap.get('index'));
+    const id = this.puzzleLocal.getPuzzleIndex(index);
+    this.puzzleData.index = id.id;
     this.informationData.isGameActive = false;
-    this.informationData.NroMovimientos= this.puzzleData.dataPuzzle.NMoves;
-    this.informationData.NroSoluciones= this.puzzleData.dataPuzzle.NSolutions;
-    if (this.puzzleData.dataPuzzle.PlayerSolution.SolutionTime !== 0) {
-      this.informationData.timeRecord = this.puzzleData.dataPuzzle.PlayerSolution.SolutionTime;
-    }
-    if (this.puzzleData.dataPuzzle.PlayerSolution.SolutionNMoves !== 0) {
-      this.informationData.movesRecord = this.puzzleData.dataPuzzle.PlayerSolution.SolutionNMoves;
-    }
-    console.log(this.informationData)
   }
 
   getColorRow(cell: number) {
     return cellColors[cell];
   }
 
+  @HostListener('window:keydown', ['$event'])
   botonAbajo(event: KeyboardEvent): void {
+    if (!this.informationData.isGameActive) {
+      return;
+    }
     const buttonDown = this.gameService.buttonDown(
       event,
       [...this.Matrix()],
@@ -53,6 +51,7 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
     const move = buttonDown[0];
     const moveType = buttonDown[1];
     if (moveType === 'Win') {
+      this.informationData.addMove();
       this.puzzleData.wingame(
         this.informationData.time,
          this.informationData.moves,
@@ -78,9 +77,6 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
   }
 
   resetGame() {
-    /*     this.Matrix.set(this.gameService.resetPuzzle(this.Matrix(),this.puzzleLocalService.getPuzzle(this.index).PlayerPostions,this.Playeri_j(),this.EnemyPositions()));
-    this.Playeri_j.set(this.puzzleLocalService.getPuzzle(this.index).PlayerPostions); */
-    console.log(this.Playeri_j())
     this.puzzleData.resetData(this.Playeri_j());
     this.informationData.resetDataInfo();
   }
@@ -89,4 +85,6 @@ export class PuzzleGameComponent implements OnInit, OnDestroy {
     this.router.navigate(['/Puzzles']);
     this.informationData.isGameActive = false;
   }
+
+
 }

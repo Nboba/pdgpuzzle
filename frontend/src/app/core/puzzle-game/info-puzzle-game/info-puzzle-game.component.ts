@@ -1,4 +1,5 @@
 import { Component, inject, linkedSignal, OnDestroy, output} from '@angular/core';
+import{DecimalPipe} from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import {CdkDrag} from '@angular/cdk/drag-drop';
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -13,13 +14,14 @@ import { BotonesStartStopResetComponent } from './botones-start-stop-reset/boton
     MatExpansionModule,
     MatTooltipModule,
     BotonesStartStopResetComponent,
+    DecimalPipe,
     
   ],
   templateUrl: './info-puzzle-game.component.html',
   styleUrl: './info-puzzle-game.component.scss',
 })
 export class InfoPuzzleGameComponent implements OnDestroy {
-  public initialPositionReset = {x: 0, y: 0};
+  public initialPositionReset = {x: 400, y: -100};
   public NroMovimientos = linkedSignal<number>(()=>  this.informationData.NroMovimientos);
   public NroSoluciones = linkedSignal<number>(()=>  this.informationData.NroSoluciones);
   protected time = linkedSignal<number>(()=>  this.informationData.time);
@@ -27,6 +29,7 @@ export class InfoPuzzleGameComponent implements OnDestroy {
   protected recordTime = linkedSignal<number>(()=>  this.informationData.timeRecord);
   protected recordMoves = linkedSignal<number>(()=>  this.informationData.movesRecord);
   private readonly informationData = inject(InfoPuzzleGameService);
+ 
   protected resetSignal = output<void>();
   protected interval: ReturnType<typeof setInterval> = setInterval(() => {
     this.time.set(this.time() + 0);
@@ -44,4 +47,6 @@ export class InfoPuzzleGameComponent implements OnDestroy {
   resetPosition(){
     this.initialPositionReset = {x: 0, y: 0};
   }
+
+
 }

@@ -129,6 +129,11 @@ export class PuzzleLocalService {
     }
     return { ...puzzle };
   }
+
+  public getPuzzleIndex(index: number): IndexFront {
+    return this.SortedPuzzles.length > index ? this.SortedPuzzles[index] : { index: -1, id: '' };
+  }
+
   public getMetaData(id: string): [number, number] {
     return [this.getPuzzle(id).NMoves, this.getPuzzle(id).NSolutions];
   }
@@ -144,8 +149,8 @@ export class PuzzleLocalService {
 
   public saveDataGame(index : string, time:number,moves:number){
     const puzzle = this.getPuzzle(index);
-    puzzle.PlayerSolution.SolutionTime = time;
-    puzzle.PlayerSolution.SolutionNMoves = moves;
+    puzzle.PlayerSolution.SolutionTime = puzzle.PlayerSolution.SolutionTime > time? time : puzzle.PlayerSolution.SolutionTime;
+    puzzle.PlayerSolution.SolutionNMoves = puzzle.PlayerSolution.SolutionNMoves > moves? moves : puzzle.PlayerSolution.SolutionNMoves;
     this.savedPuzzles.set(index,puzzle);
     localStorage.setItem('puzzlesSelected', JSON.stringify(Array.from(this.savedPuzzles.values())));
   }

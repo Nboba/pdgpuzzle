@@ -1,19 +1,29 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, linkedSignal, signal, effect } from '@angular/core';
+import { PuzzleDataService } from './puzzle-data.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InfoPuzzleGameService {
-  private readonly _NroMovimientos = signal(0);
-  private readonly _NroSoluciones = signal(0);
+  protected readonly puzzleData = inject(PuzzleDataService);
+  
+  private readonly _NroMovimientos = linkedSignal<number>(() => this.puzzleData.dataPuzzle.NMoves);
+  private readonly _NroSoluciones = linkedSignal<number>(() => this.puzzleData.dataPuzzle.NSolutions);
   private readonly _isGameActive = signal<boolean>(false);
   private readonly _time = signal<number>(0);
   private readonly _moves = signal<number>(0);
-  private readonly _timeRecord = signal<number>(0);
-  private readonly _movesRecord = signal<number>(0);
+  private readonly _timeRecord = linkedSignal<number>(computed(() => this.puzzleData.dataPuzzle.PlayerSolution?.SolutionTime??0));
+  private readonly _movesRecord = linkedSignal<number>(computed(() => this.puzzleData.dataPuzzle.PlayerSolution?.SolutionNMoves??0));
   private _interval: ReturnType<typeof setInterval> = setInterval(() => {
     this._time.set(this._time() + 0);
   }, 0);
+constructor(){
+  effect(() => {
+    this._timeRecord();
+    this._movesRecord();
+  });
+}
+
 
   // Getters
   get NroMovimientos(): number {
@@ -72,8 +82,8 @@ export class InfoPuzzleGameService {
     this.isGameActive = !this.isGameActive;
     if (this.isGameActive) {
       this._interval = setInterval(() => {
-        this.time = this.time + 1;
-      }, 1000);
+        this.time = this.time + 0.01;
+      }, 1);
       this.moves = 0;
       this.time = 0;
     } else {

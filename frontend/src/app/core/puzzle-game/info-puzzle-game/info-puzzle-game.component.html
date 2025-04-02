@@ -9,7 +9,7 @@
               <mat-icon class="mat-info">directions_run</mat-icon>
               <p class="p-info">{{ this.moves() }}</p>
               <mat-icon class="mat-info">timer</mat-icon>
-              <p class="p-info">{{ this.time() }}</p>
+              <p class="p-info">{{ this.time()| number:'.2'}}</p>
             </mat-panel-description>
           </mat-expansion-panel-header>
           @if(this.recordMoves() !== 0){
@@ -17,9 +17,12 @@
               <div class="div-static-info">
                 <h3>Record Actual</h3>
                 <p>Movimientos : {{ this.recordMoves()}}</p>
-                <p>Tiempo : {{ this.recordTime() }} segundos</p>
+                <p>Tiempo : {{ this.recordTime() | number:'.2'}} segundos</p>
               </div>
             </div>
+          }
+          @else{
+            <p>No hay record actual</p>
           }
         </mat-expansion-panel>
         <mat-expansion-panel>
