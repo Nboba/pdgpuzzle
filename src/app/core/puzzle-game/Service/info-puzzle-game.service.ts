@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, linkedSignal, signal, effect } from '@angular/core';
+import { computed, inject, Injectable, linkedSignal, signal } from '@angular/core';
 import { PuzzleDataService } from './puzzle-data.service';
 
 @Injectable({
@@ -17,13 +17,6 @@ export class InfoPuzzleGameService {
   private _interval: ReturnType<typeof setInterval> = setInterval(() => {
     this._time.set(this._time() + 0);
   }, 0);
-constructor(){
-  effect(() => {
-    this._timeRecord();
-    this._movesRecord();
-  });
-}
-
 
   // Getters
   get NroMovimientos(): number {
@@ -84,8 +77,6 @@ constructor(){
       this._interval = setInterval(() => {
         this.time = this.time + 0.01;
       }, 1);
-      this.moves = 0;
-      this.time = 0;
     } else {
       this.stopTime();
     }

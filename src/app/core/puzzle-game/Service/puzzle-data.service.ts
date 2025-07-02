@@ -2,14 +2,12 @@ import { computed, inject, Injectable, linkedSignal, signal } from '@angular/cor
 
 import { PuzzleLocalService } from '../../../Services/puzzle-local.service';
 import { ResponsePuzzleModel } from '../../../Models/request-puzzle-model';
-import { PuzzleGameService } from './puzzle-game.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PuzzleDataService {
   private readonly puzzleLocalService = inject(PuzzleLocalService);
-  private readonly gameService = inject(PuzzleGameService);
 
   private readonly _index = signal<string>('');
   private readonly _dataPuzzle = linkedSignal<ResponsePuzzleModel>(computed(()=> this.puzzleLocalService.getPuzzle(this._index())));
@@ -102,12 +100,7 @@ export class PuzzleDataService {
     if(time===0 && moves!==0){
       return;
     }
-   if(this.time === 0 && this.moves === 0)
-    {
-      this.puzzleLocalService.saveDataGame(this.index, time, moves); 
-    }
-    if(this.time > 0 || this.moves > 0)
-    {
+   if((this.time === 0 && this.moves === 0) || (this.time > 0 || this.moves > 0)) { 
       this.puzzleLocalService.saveDataGame(this.index, time, moves); 
     }
   }
