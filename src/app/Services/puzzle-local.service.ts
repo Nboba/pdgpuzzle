@@ -149,8 +149,15 @@ export class PuzzleLocalService {
 
   public saveDataGame(index : string, time:number,moves:number){
     const puzzle = this.getPuzzle(index);
-    puzzle.PlayerSolution.SolutionTime = puzzle.PlayerSolution.SolutionTime > time? time : puzzle.PlayerSolution.SolutionTime;
-    puzzle.PlayerSolution.SolutionNMoves = puzzle.PlayerSolution.SolutionNMoves > moves? moves : puzzle.PlayerSolution.SolutionNMoves;
+    if(puzzle.PlayerSolution.SolutionTime === 0 && puzzle.PlayerSolution.SolutionNMoves === 0){
+      puzzle.PlayerSolution.SolutionTime = time;
+      puzzle.PlayerSolution.SolutionNMoves = moves ;
+    }
+    else{
+      puzzle.PlayerSolution.SolutionTime = puzzle.PlayerSolution.SolutionTime > time? time : puzzle.PlayerSolution.SolutionTime;
+      puzzle.PlayerSolution.SolutionNMoves = puzzle.PlayerSolution.SolutionNMoves > moves? moves : puzzle.PlayerSolution.SolutionNMoves;
+    }
+
     this.savedPuzzles.set(index,puzzle);
     localStorage.setItem('puzzlesSelected', JSON.stringify(Array.from(this.savedPuzzles.values())));
   }

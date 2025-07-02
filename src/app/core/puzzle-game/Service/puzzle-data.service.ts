@@ -106,7 +106,7 @@ export class PuzzleDataService {
     {
       this.puzzleLocalService.saveDataGame(this.index, time, moves); 
     }
-    else if(this.time > 0 || this.moves > 0)
+    if(this.time > 0 || this.moves > 0)
     {
       this.puzzleLocalService.saveDataGame(this.index, time, moves); 
     }
