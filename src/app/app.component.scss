@@ -11,7 +11,7 @@
 
 .toolbar {
   background-color: #6ad9b3;
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 0 0 1rem 1rem;
   position: sticky;
   top: 0;
@@ -28,7 +28,7 @@
 }
 
 .button-toolbar {
-  width: 20rem;
+  width: 24dvw;
   background: rgb(54, 185, 43);
   color: white;
   padding: 0.5rem 1rem;
@@ -37,13 +37,20 @@
   cursor: pointer;
 }
 
-@media only screen and (max-width: 740px) {
+.div-buttons{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  max-width: fit-content;
+ 
+}
+@media only screen and (max-width: 770px) {
   .toolbar {
     padding: 1rem;
   }
   .toolbar-row {
     display: grid;
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     height: max-content;
   }
   .title {
@@ -52,7 +59,10 @@
   }
   .button-toolbar {
     font-size: 1.5rem;
-    width: 16rem;
+    width: 34dvw;
+    margin: 0 auto;
+  }
+  .div-buttons{
     margin: 0 auto;
   }
 }

@@ -1,22 +1,24 @@
 <mat-toolbar class="toolbar">
   <mat-toolbar-row class="toolbar-row">
     <h1 class="title">KronoRogue LT</h1>
-    <button
-      routerLink="/Puzzles"
-      routerLinkActive="activeButton"
-      ariaCurrentWhenActive="page"
-      class="button-toolbar"
-    >
-      Mis Puzzles
-    </button>
-    <button
+    <div class="div-buttons">
+        <button
+        routerLink="/Puzzles"
+        routerLinkActive="activeButton"
+        ariaCurrentWhenActive="page"
+        class="button-toolbar"
+        >
+        Mis Puzzles
+      </button>
+      <button
       routerLink="/Create-Puzzles"
       routerLinkActive="activeButton"
       ariaCurrentWhenActive="page"
       class="button-toolbar"
-    >
+      >
       Crear Puzzle
     </button>
+  </div>
   </mat-toolbar-row>
 </mat-toolbar>
 

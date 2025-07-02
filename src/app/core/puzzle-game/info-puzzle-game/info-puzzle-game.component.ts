@@ -1,4 +1,4 @@
-import { Component, inject, linkedSignal, OnDestroy, output} from '@angular/core';
+import { Component, effect, inject, linkedSignal, OnDestroy, output} from '@angular/core';
 import{DecimalPipe} from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import {CdkDrag} from '@angular/cdk/drag-drop';
@@ -31,6 +31,13 @@ export class InfoPuzzleGameComponent implements OnDestroy {
   private readonly informationData = inject(InfoPuzzleGameService);
  
   protected resetSignal = output<void>();
+
+  constructor(){
+    effect(()=>{
+      this.recordTime();
+      this.recordMoves();
+    })
+  }
   protected interval: ReturnType<typeof setInterval> = setInterval(() => {
     this.time.set(this.time() + 0);
   }, 0);
@@ -47,6 +54,4 @@ export class InfoPuzzleGameComponent implements OnDestroy {
   resetPosition(){
     this.initialPositionReset = {x: 0, y: 0};
   }
-
-
 }

@@ -1,12 +1,9 @@
 .game-container {
-  display: grid;
-  grid-template-columns: 11dvw 32dvw 12dvw;
   background-color: var(--puzzle-background);
   padding: 2rem;
-  width: 61dvw;
+  max-width: 42dvw;
   margin: 0 auto;
   margin-top: 2rem;
-  border-radius: 5rem;
 }
 .div-back-button {
   display: grid;
@@ -21,19 +18,35 @@
 }
 
 .div-puzzle {
-  grid-column-end: 3;
-  max-width: 632px;
 }
 .mat-list {
   background-color: black;
 }
 
-
-@media only screen and ((max-width: 900px)) {
+@media only screen and ((max-width: 1580px)) {
   .game-container {
-    grid-template-rows: 1fr 23dvh;
-    grid-template-columns: 5rem 1fr;
     padding: 1rem;
-    border-radius: 2rem;
+    max-width: 54dvw;
+  }
+}
+
+@media only screen and ((max-width: 1430px)) {
+  .game-container {
+    padding: 1rem;
+    max-width: 60dvw;
+  }
+}
+
+@media only screen and ((max-width: 1260px)) {
+  .game-container {
+    padding: 1rem;
+    max-width: 67dvw;
+  }
+}
+
+@media only screen and ((max-width: 964px)) {
+  .game-container {
+    padding: 1rem;
+    max-width: 85dvw;
   }
 }
